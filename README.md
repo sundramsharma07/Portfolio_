@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Portfolio Website
 
-## Getting Started
+A modern, responsive personal portfolio built with Next.js, TypeScript, and Tailwind CSS — designed to showcase projects, skills, and achievements with smooth animations and clean UI.
 
-First, run the development server:
+✨ Preview
+🧠 About the Project
 
-```bash
+This portfolio is built to highlight:
+
+Projects and technical skills
+Certifications and achievements
+Smooth UI/UX with animations
+Clean and scalable architecture
+
+It focuses on performance, design, and interactivity — not just static content.
+
+⚙️ Tech Stack
+Framework: Next.js 16
+Language: TypeScript
+Styling: Tailwind CSS
+Animations: Framer Motion
+Icons: Lucide + React Icons
+🧩 Features
+🎯 Fully responsive design
+⚡ Fast performance (optimized build)
+🎨 Modern UI with glassmorphism effects
+🌀 Smooth animations using Framer Motion
+📂 Modular component-based architecture
+📊 Dynamic sections (projects, skills, etc.)
+🔝 Scroll progress & back-to-top button
+📁 Project Structure
+portfolio/
+│
+├── public/                # Static assets (images, icons)
+├── src/
+│   ├── app/               # Next.js app directory
+│   ├── components/        # Reusable UI components
+│   │   └── portfolio/
+│   ├── hooks/             # Custom hooks
+│   └── data/              # Static data
+│
+├── package.json
+└── README.md
+🚀 Getting Started
+1. Clone the repository
+git clone https://github.com/your-username/portfolio.git
+cd portfolio
+2. Install dependencies
+npm install
+3. Run locally
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+4. Build for production
+npm run build
+npm run start
+🌐 Deployment
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project is deployed using Render as a Web Service.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Render Setup:
+Build Command: npm install && npm run build
+Start Command: npm run start
+Publish Directory: (leave empty)
+🖼️ Assets & Images
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+All images must be placed inside:
 
-## Learn More
+public/
 
-To learn more about Next.js, take a look at the following resources:
+Example usage:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<img src="/image.png" />
+📸 Sections Included
+Hero Section
+About Me
+Skills
+Projects
+Achievements
+Certifications
+Contact
+Resume
+🎯 Goals of This Project
+Showcase real-world frontend skills
+Practice modern UI/UX design
+Build a production-ready portfolio
+Learn deployment workflows
+🔥 Future Improvements
+Blog section (Markdown support)
+Dark/Light theme toggle
+CMS integration (Sanity / Contentful)
+Project filtering system
+Performance optimizations
+🤝 Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This is a personal project, but suggestions are always welcome.
 
-## Deploy on Vercel
+📬 Contact
+📧 Email: your-email@example.com
+💼 LinkedIn: https://linkedin.com/in/your-profile
+🐙 GitHub: https://github.com/your-username
+⭐ Show Your Support
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+If you like this project:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+⭐ Star the repo
+🍴 Fork it
+🧠 Use it as inspiration
+⚡ Final Note
+
+This isn’t just a portfolio — it’s a representation of your skills as a developer. Keep improving it as you grow.
