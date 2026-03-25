@@ -8,7 +8,7 @@ import { NAV_ITEMS } from "@/data/portfolio";
 import { cn } from "@/lib/cn";
 
 function useActiveSection(ids: string[]) {
-  const [active, setActive] = useState(ids[0] ?? "home");
+  const [active, setActive] = useState("home");
 
   useEffect(() => {
     const els = ids
@@ -28,10 +28,28 @@ function useActiveSection(ids: string[]) {
     );
 
     els.forEach((el) => obs.observe(el));
+
+    // initial check
+    const checkInitial = () => {
+      const visible = els
+        .map((el) => ({ el, ratio: getIntersectionRatio(el) }))
+        .filter(({ ratio }) => ratio > 0.2)
+        .sort((a, b) => b.ratio - a.ratio)[0];
+      if (visible) setActive(visible.el.id);
+    };
+    checkInitial();
+
     return () => obs.disconnect();
   }, [ids]);
 
   return active;
+}
+
+function getIntersectionRatio(el: HTMLElement): number {
+  const rect = el.getBoundingClientRect();
+  const windowHeight = window.innerHeight;
+  const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+  return visibleHeight / rect.height;
 }
 
 export default function Navbar() {
@@ -70,7 +88,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => scrollToId("home")}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-white/5 transition-colors"
+          className="group flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-white/10 transition-colors"
           aria-label="Go to top"
         >
           <span className="relative grid h-9 w-9 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10">
@@ -95,7 +113,7 @@ export default function Navbar() {
             onClick={() => scrollToId("projects")}
             whileHover={{ y: -2 }}
             whileTap={{ scale: 0.98 }}
-            className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/85 transition-all hover:ring-glow"
+            className="relative overflow-hidden rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/90 transition-all hover:bg-white/10 hover:ring-glow"
           >
             Projects
             {active === "projects" ? (
@@ -111,7 +129,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => scrollToId("resume")}
-            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/85 transition-colors hover:bg-white/10"
+            className="rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10"
           >
             Resume
           </button>
@@ -128,7 +146,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setSectionsOpen((v) => !v)}
-              className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/85 transition-colors hover:bg-white/10"
+              className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/90 transition-colors hover:bg-white/10"
             >
               Sections
             </button>
@@ -142,7 +160,7 @@ export default function Navbar() {
                   transition={{ duration: 0.18 }}
                   className="absolute right-0 mt-2 w-64 rounded-3xl glass-strong p-3"
                 >
-                  <div className="text-xs font-semibold text-white/55 px-2">
+                  <div className="text-xs font-semibold text-white/70 px-2">
                     Navigate
                   </div>
                   <div className="mt-2 grid grid-cols-2 gap-2">
@@ -156,15 +174,15 @@ export default function Navbar() {
                           setSectionsOpen(false);
                           scrollToId(item.id);
                         }}
-                        className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-left text-sm font-semibold text-white/85 hover:bg-white/10 transition-colors"
+                        className="rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-left text-sm font-semibold text-white/90 hover:bg-white/10 transition-colors"
                       >
-                        <div className="text-white/85">{item.label}</div>
+                        <div className="text-white/90">{item.label}</div>
                         {active === item.id ? (
                           <div className="text-xs text-cyan-200 mt-1">
                             Active
                           </div>
                         ) : (
-                          <div className="text-xs text-white/45 mt-1">
+                          <div className="text-xs text-white/55 mt-1">
                             Explore
                           </div>
                         )}
@@ -181,14 +199,14 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => scrollToId("contact")}
-            className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold hover:bg-white/8 transition-colors"
+            className="rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-white/90 hover:bg-white/10 transition-colors"
           >
             Contact
           </button>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="rounded-xl border border-white/10 bg-white/5 p-2 hover:bg-white/8 transition-colors"
+            className="rounded-xl border border-white/10 bg-white/5 p-2 hover:bg-white/10 transition-colors"
             aria-label="Toggle menu"
           >
             {open ? <X size={18} /> : <Menu size={18} />}
@@ -216,7 +234,7 @@ export default function Navbar() {
                       scrollToId(item.id);
                     }}
                     className={cn(
-                      "rounded-2xl border border-white/10 px-3 py-2 text-left text-sm transition-all hover:-translate-y-0.5 hover:bg-white/5",
+                      "rounded-2xl border border-white/10 px-3 py-2 text-left text-sm transition-all hover:-translate-y-0.5 hover:bg-white/10",
                       active === item.id ? "ring-glow" : "",
                     )}
                   >
@@ -245,7 +263,7 @@ export default function Navbar() {
                     setOpen(false);
                     scrollToId("contact");
                   }}
-                  className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/90 transition-transform hover:-translate-y-0.5 hover:bg-white/8"
+                  className="flex-1 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-white/90 transition-transform hover:-translate-y-0.5 hover:bg-white/10"
                 >
                   Contact
                 </button>
@@ -257,4 +275,3 @@ export default function Navbar() {
     </header>
   );
 }
-
