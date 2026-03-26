@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   motion,
   useMotionValue,
@@ -22,6 +22,11 @@ export default function AnimatedBackground() {
   const reducedMotion = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   const sMx = useSpring(mx, { stiffness: 150, damping: 20, mass: 0.35 });
   const sMy = useSpring(my, { stiffness: 150, damping: 20, mass: 0.35 });
@@ -33,20 +38,31 @@ export default function AnimatedBackground() {
 
   const particles = useMemo(() => {
     const rnd = mulberry32(1337);
-    const count = reducedMotion ? 5 : 6;
-    return Array.from({ length: count }).map((_, i) => {
-      const x = rnd() * 100;
-      const y = rnd() * 100;
-      const size = 2 + rnd() * 3.2;
-      const dur = 9 + rnd() * 8;
-      const delay = rnd() * 2;
-      const opacity = 0.3 + rnd() * 0.4;
-      return { i, x, y, size, dur, delay, opacity };
-    });
+    const count = (reducedMotion || isTouch) ? 10 : 40;
+    return Array.from({ length: count }).map((_, i) => ({
+      i,
+      x: rnd() * 100,
+      y: rnd() * 100,
+      size: 0.5 + rnd() * 1.5,
+      dur: 2 + rnd() * 4,
+      delay: rnd() * 5,
+      opacity: 0.2 + rnd() * 0.5,
+    }));
+  }, [reducedMotion]);
+
+  const meteors = useMemo(() => {
+    const rnd = mulberry32(42);
+    const count = (reducedMotion || isTouch) ? 2 : 6;
+    return Array.from({ length: count }).map((_, i) => ({
+      i,
+      left: 10 + rnd() * 80,
+      delay: rnd() * 10,
+      dur: 2 + rnd() * 4,
+    }));
   }, [reducedMotion]);
 
   useEffect(() => {
-    if (reducedMotion) return;
+    if (reducedMotion || isTouch) return;
 
     let raf = 0;
     let lx = 0;
@@ -73,10 +89,10 @@ export default function AnimatedBackground() {
       window.removeEventListener("mousemove", onMove);
       if (raf) window.cancelAnimationFrame(raf);
     };
-  }, [mx, my, reducedMotion]);
+  }, [mx, my, reducedMotion, isTouch]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+    <div className="pointer-events-none absolute inset-0 -z-[1] overflow-hidden">
       <div className="absolute inset-0 star-overlay star-overlay-anim" />
 
       <div
@@ -119,33 +135,49 @@ export default function AnimatedBackground() {
 
       {particles.map((p) => (
         <motion.div
-          key={p.i}
-          className="absolute rounded-full"
+          key={`star-${p.i}`}
+          className="absolute rounded-full bg-white"
           style={{
             left: `${p.x}%`,
             top: `${p.y}%`,
             width: p.size,
             height: p.size,
-            background:
-              "radial-gradient(circle at 30% 30%, rgba(255,255,255,0.95), rgba(34,211,238,0.55) 45%, rgba(99,102,241,0.0) 70%)",
             opacity: p.opacity,
-            filter: "blur(0.2px)",
+          }}
+          animate={reducedMotion ? undefined : {
+            opacity: [p.opacity * 0.3, p.opacity, p.opacity * 0.3],
+            scale: [0.8, 1.1, 0.8],
+          }}
+          transition={{
+            duration: p.dur,
+            repeat: Infinity,
+            delay: p.delay,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+
+      {meteors.map((m) => (
+        <motion.div
+          key={`meteor-${m.i}`}
+          className="absolute h-0.5 w-0.5 rotate-[215deg] bg-gradient-to-r from-cyan-400 to-transparent shadow-[0_0_0_1px_rgba(34,211,238,0.1)]"
+          style={{
+            left: `${m.left}%`,
+            top: "-10%",
+            width: "1.5px",
+            height: "120px",
           }}
           animate={{
-            opacity: reducedMotion
-              ? p.opacity
-              : [p.opacity * 0.65, Math.min(1, p.opacity + 0.18), p.opacity * 0.65],
+            transform: ["translate3d(0, 0, 0)", "translate3d(-400px, 800px, 0)"],
+            opacity: [0, 1, 0],
           }}
-          transition={
-            reducedMotion
-              ? undefined
-              : {
-                  duration: p.dur,
-                  repeat: Infinity,
-                  delay: p.delay,
-                  ease: "easeInOut",
-                }
-          }
+          transition={{
+            duration: m.dur,
+            repeat: Infinity,
+            delay: m.delay,
+            repeatDelay: 8 + Math.random() * 12,
+            ease: "linear",
+          }}
         />
       ))}
 
@@ -158,6 +190,42 @@ export default function AnimatedBackground() {
           reducedMotion ? undefined : { duration: 10, repeat: Infinity, ease: "easeInOut" }
         }
       />
+
+      {/* Corner Animations - Extreme Fixed Nebula Glows */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <motion.div
+          className="absolute -top-[5%] -left-[5%] h-[40svh] w-[40svw] rounded-full bg-cyan-400/40 blur-[80px]"
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.6, 0.9, 0.6],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -top-[5%] -right-[5%] h-[40svh] w-[40svw] rounded-full bg-purple-500/35 blur-[80px]"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-[5%] -left-[5%] h-[40svh] w-[40svw] rounded-full bg-indigo-500/35 blur-[80px]"
+          animate={{
+            scale: [1.1, 1.3, 1.1],
+            opacity: [0.6, 0.9, 0.6],
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -bottom-[5%] -right-[5%] h-[40svh] w-[40svw] rounded-full bg-blue-500/40 blur-[80px]"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            opacity: [0.5, 0.8, 0.5],
+          }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
     </div>
   );
 }

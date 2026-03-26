@@ -20,10 +20,10 @@ export default function SectionHeading({
     <div className={cn("relative", className)}>
       {kicker ? (
         <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.45 }}
           className="mb-3 text-sm tracking-wide text-cyan-300/80"
         >
           {kicker}

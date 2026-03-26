@@ -1,115 +1,60 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useReducedMotion } from "framer-motion";
+import { motion, useSpring, useMotionValue, useReducedMotion } from "framer-motion";
 
 export default function CustomCursor() {
   const reducedMotion = useReducedMotion();
-  const [mode, setMode] = useState<"normal" | "magnify">("normal");
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+  const [mounted, setMounted] = useState(false);
+  const [mode, setMode] = useState<"default" | "magnify">("default");
 
-  const sx = useSpring(x, { stiffness: 520, damping: 34 });
-  const sy = useSpring(y, { stiffness: 520, damping: 34 });
-  const transform = useMotionTemplate`translate3d(${sx}px, ${sy}px, 0) translate(-50%, -50%)`;
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const springConfig = { damping: 25, stiffness: 250, mass: 0.5 };
+  const cursorX = useSpring(mouseX, springConfig);
+  const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.add("cursor-none");
+    setMounted(true);
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX.set(e.clientX - 10);
+      mouseY.set(e.clientY - 10);
 
-    const onCursorMode = (e: Event) => {
-      const ce = e as CustomEvent<string>;
-      const next = ce.detail === "magnify" ? "magnify" : "normal";
-      setMode(next);
+      // Check if hovering over a button or link
+      const target = e.target as HTMLElement;
+      if (
+        target.closest("button") ||
+        target.closest("a") ||
+        target.closest('[role="button"]')
+      ) {
+        setMode("magnify");
+      } else {
+        setMode("default");
+      }
     };
-    window.addEventListener("cursor-mode", onCursorMode as EventListener);
 
-    const onMove = (e: MouseEvent) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener(
-        "cursor-mode",
-        onCursorMode as EventListener,
-      );
-      root.classList.remove("cursor-none");
-      window.removeEventListener("mousemove", onMove);
-    };
-  }, [x, y]);
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    return () => window.removeEventListener("mousemove", onMouseMove);
+  }, [mouseX, mouseY]);
 
-  if (reducedMotion) return null;
+  if (!mounted || reducedMotion) return null;
 
   return (
-    <>
+    <motion.div
+      className="pointer-events-none fixed inset-0 z-[100] hidden lg:block"
+      style={{
+        x: cursorX,
+        y: cursorY,
+      }}
+    >
       <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[200] h-12 w-12 rounded-full border border-cyan-200/40"
-        style={{ transform }}
-        animate={reducedMotion ? undefined : mode === "magnify" ? { scale: 1.12 } : { scale: 1 }}
-      />
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[201] h-4 w-4 rounded-full bg-cyan-200/55 blur-[0.2px]"
-        style={{ transform }}
-        animate={reducedMotion ? undefined : mode === "magnify" ? { scale: 0.85 } : { scale: 1 }}
-      />
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[199] h-16 w-16 rounded-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.16),transparent_60%)] blur-[0.4px]"
-        style={{ transform }}
+        className="h-5 w-5 rounded-full border-2 border-cyan-400 bg-cyan-400/10 shadow-[0_0_15px_rgba(34,211,238,0.3)]"
         animate={reducedMotion ? undefined : mode === "magnify" ? { opacity: 1, scale: 1.05 } : { opacity: 0.9, scale: 1 }}
-      />
-
-      <motion.div
-        className="pointer-events-none fixed left-0 top-0 z-[202] h-14 w-14 rounded-full flex items-center justify-center"
-        style={{ transform }}
-        initial={false}
-        animate={
-          reducedMotion
-            ? { opacity: 0 }
-            : mode === "magnify"
-              ? { opacity: 1, scale: 1 }
-              : { opacity: 0, scale: 0.9 }
-        }
-        transition={{ duration: 0.15 }}
+        transition={{ duration: 0.2 }}
       >
-        <svg
-          viewBox="0 0 64 64"
-          width="34"
-          height="34"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="28"
-            cy="28"
-            r="16"
-            stroke="rgba(34,211,238,0.85)"
-            strokeWidth="3"
-          />
-          <path
-            d="M42 42 L56 56"
-            stroke="rgba(99,102,241,0.75)"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-          <circle
-            cx="28"
-            cy="28"
-            r="7"
-            stroke="rgba(168,85,247,0.55)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            opacity="0.9"
-          />
-        </svg>
+        <div className="absolute inset-0 m-auto h-1 w-1 rounded-full bg-cyan-400" />
       </motion.div>
-    </>
+    </motion.div>
   );
 }
-

@@ -240,8 +240,26 @@ export const ACHIEVEMENTS = [
 ] as const;
 
 export const EDUCATION = [
-  { title: "Lovely Professional University", subtitle: "B.Tech CSE", meta: "CGPA 7.72" },
-  { title: "Little Flower House", subtitle: "Intermediate", meta: "74.4%" },
-  { title: "B D Public School", subtitle: "High School", meta: "89.2%" },
+  {
+    title: "Lovely Professional University",
+    subtitle: "B.Tech CSE",
+    meta: "CGPA 7.86",
+    date: "Aug' 2023 - Present",
+    location: "Phagwara, Punjab",
+  },
+  {
+    title: "Little Flower House",
+    subtitle: "Intermediate",
+    meta: "74.4%",
+    date: "April'21- Mar'23",
+    location: "Varanasi U.P",
+  },
+  {
+    title: "B D Public School",
+    subtitle: "High School",
+    meta: "89.2%",
+    date: "April' 20 - March' 21",
+    location: "Hajipur - Bihar",
+  },
 ] as const;
 

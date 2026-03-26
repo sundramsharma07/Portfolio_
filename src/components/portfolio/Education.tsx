@@ -23,10 +23,10 @@ export default function EducationSection() {
           <div className="relative grid lg:grid-cols-12 gap-8">
             <div className="lg:col-span-5">
               <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.65 }}
+                transition={{ duration: 0.5 }}
                 className="rounded-2xl border border-white/10 bg-white/5 p-5"
               >
                 <div className="text-xs text-white/55">Current status</div>
@@ -69,7 +69,7 @@ export default function EducationSection() {
                         </div>
 
                         <div className="rounded-2xl border border-white/10 bg-white/5 p-5 hover:bg-white/7 transition-colors">
-                          <div className="flex items-start justify-between gap-4">
+                          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-4">
                             <div>
                               <div className="text-sm font-semibold text-white/92">
                                 {x.title}
@@ -77,8 +77,18 @@ export default function EducationSection() {
                               <div className="mt-1 text-sm text-white/65">
                                 {x.subtitle}
                               </div>
+                              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-white/45">
+                                <span className="flex items-center gap-1">
+                                  {/* @ts-ignore - added in data */}
+                                  {x.date}
+                                </span>
+                                <span className="flex items-center gap-1">
+                                  {/* @ts-ignore */}
+                                  {x.location}
+                                </span>
+                              </div>
                             </div>
-                            <div className="text-sm font-semibold text-cyan-200">
+                            <div className="text-sm font-semibold text-cyan-200 self-start sm:self-auto">
                               {x.meta}
                             </div>
                           </div>

@@ -23,10 +23,10 @@ export default function ResumeSection() {
 
         <motion.div
           className="mt-10 glass-strong rounded-[2.6rem] p-6 sm:p-8 relative overflow-hidden"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5 }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(1000px_circle_at_0%_0%,rgba(34,211,238,0.16),transparent_55%),radial-gradient(850px_circle_at_100%_20%,rgba(168,85,247,0.15),transparent_55%)]" />
           <div className="relative grid lg:grid-cols-12 gap-8 items-center">
@@ -41,13 +41,13 @@ export default function ResumeSection() {
 
               <div className="mt-6 flex flex-wrap gap-3">
                 <motion.button
-                  whileHover={{ y: -3 }}
-                  whileTap={{ scale: 0.99 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={() => {
                     setOpen(true);
                     window.open(RESUME_DOWNLOAD_URL, "_blank", "noopener,noreferrer");
                   }}
-                  className="rounded-2xl bg-gradient-to-r from-cyan-300 via-violet-300 to-blue-300 px-5 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5 relative overflow-hidden"
+                  className="rounded-2xl bg-gradient-to-r from-cyan-300 via-violet-300 to-blue-300 px-5 py-3 text-sm font-semibold text-black transition-all relative overflow-hidden"
                 >
                   <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent_0%,rgba(0,0,0,0.18)_40%,transparent_70%)] translate-x-[-120%] hover:translate-x-[120%] transition-transform duration-700" />
                   <span className="relative inline-flex items-center gap-2">
@@ -121,10 +121,10 @@ export default function ResumeSection() {
               <motion.div
                 role="dialog"
                 aria-modal="true"
-                initial={{ opacity: 0, y: 22, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: 22, scale: 0.98 }}
-                transition={{ duration: 0.22 }}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.97 }}
+                transition={{ duration: 0.2 }}
                 className="relative w-full max-w-4xl glass-strong rounded-[2.4rem] overflow-hidden"
               >
                 <div className="flex items-center justify-between gap-4 p-5 sm:p-6 border-b border-white/10 bg-black/20">

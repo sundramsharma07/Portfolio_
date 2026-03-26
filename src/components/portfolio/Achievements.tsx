@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 
 import { ACHIEVEMENTS } from "@/data/portfolio";
 import Reveal from "@/components/portfolio/Reveal";
@@ -8,6 +9,13 @@ import SectionHeading from "@/components/portfolio/SectionHeading";
 import AnimatedCounter from "@/components/portfolio/AnimatedCounter";
 
 export default function AchievementsSection() {
+  const reducedMotion = useReducedMotion();
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
+
   return (
     <section
       id="achievements"
@@ -25,8 +33,8 @@ export default function AchievementsSection() {
               <Reveal key={a.label} delayMs={idx * 90}>
                 <motion.div
                   className="glass-strong rounded-[2.2rem] p-6 sm:p-7 relative overflow-hidden"
-                  whileHover={{ y: -6 }}
-                  transition={{ duration: 0.35 }}
+                  whileHover={isTouch || reducedMotion ? undefined : { scale: 1.02 }}
+                  transition={{ duration: 0.25 }}
                 >
                   <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_0%,rgba(34,211,238,0.14),transparent_55%),radial-gradient(650px_circle_at_100%_40%,rgba(99,102,241,0.14),transparent_55%)]" />
                   <div className="relative">
@@ -48,10 +56,10 @@ export default function AchievementsSection() {
 
         <motion.div
           className="mt-10 rounded-3xl glass-strong p-6 sm:p-7 relative overflow-hidden"
-          initial={{ opacity: 0, y: 14 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(1100px_circle_at_0%_0%,rgba(34,211,238,0.16),transparent_55%),radial-gradient(900px_circle_at_100%_30%,rgba(168,85,247,0.15),transparent_55%)]" />
           <div className="relative">

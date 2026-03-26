@@ -7,6 +7,7 @@ import AnimatedBackground from "@/components/portfolio/AnimatedBackground";
 import BackToTop from "@/components/portfolio/BackToTop";
 import ScrollProgressBar from "@/components/portfolio/ScrollProgressBar";
 import SideNav from "@/components/portfolio/SideNav";
+import CustomCursor from "@/components/portfolio/CustomCursor";
 
 import Hero from "@/components/portfolio/Hero";
 import About from "@/components/portfolio/About";
@@ -31,10 +32,10 @@ function Separator({ idx }: { idx: number }) {
         <div className="absolute inset-0 h-full w-full bg-[linear-gradient(90deg,transparent_0%,rgba(34,211,238,0.45)_35%,rgba(168,85,247,0.30)_60%,transparent_100%)] blur-[0.2px]" />
         <motion.div
           className="absolute inset-0 h-full w-full bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.35)_45%,transparent_80%)]"
-          initial={{ x: "-60%" }}
-          whileInView={{ x: "60%" }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: idx * 0.04 }}
+          initial={{ x: "-100%" }}
+          whileInView={{ x: "100%" }}
+          viewport={{ once: true, margin: "-20px" }}
+          transition={{ duration: 1.5, ease: "circOut", delay: idx * 0.05 }}
         />
       </div>
     </motion.div>
@@ -50,7 +51,8 @@ export default function PortfolioPage() {
   }, []);
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-svh w-full overflow-x-hidden">
+      <CustomCursor />
       <AnimatedBackground />
       <ScrollProgressBar />
       <SideNav />
@@ -73,8 +75,6 @@ export default function PortfolioPage() {
             >
               <motion.div
                 className="absolute inset-0 rounded-[2rem] bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.35),transparent_62%)]"
-                animate={{ scale: [1, 1.15, 1] }}
-                transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div
                 className="relative grid h-full w-full place-items-center text-cyan-200 font-semibold"
@@ -88,7 +88,21 @@ export default function PortfolioPage() {
         ) : null}
       </AnimatePresence>
 
-      <main className="relative">
+      <motion.main
+        className="relative"
+        initial="hidden"
+        animate={loading ? "hidden" : "visible"}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.12,
+              delayChildren: 0.1,
+            },
+          },
+        }}
+      >
         <Hero />
         <Separator idx={0} />
         <About />
@@ -109,7 +123,7 @@ export default function PortfolioPage() {
         <Separator idx={8} />
         <Contact />
         <Footer />
-      </main>
+      </motion.main>
 
       <BackToTop />
     </div>

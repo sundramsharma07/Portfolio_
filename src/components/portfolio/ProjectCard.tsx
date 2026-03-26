@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Code2, ExternalLink } from "lucide-react";
 
 import { cn } from "@/lib/cn";
 
@@ -22,14 +23,15 @@ export default function ProjectCard({
       type="button"
       onClick={onOpen}
       className={cn(
-        "group relative text-left rounded-[2.4rem] overflow-hidden border border-white/10 bg-white/5",
-        "shadow-[0_0_0_rgba(0,0,0,0)] hover:shadow-[0_0_50px_rgba(34,211,238,0.12)]",
+        "group relative text-left rounded-[2.4rem] overflow-hidden border border-white/10 glass",
+        "shadow-sm hover:shadow-2xl transition-all duration-500",
       )}
-      initial={{ opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -6 }}
+      initial={{ opacity: 0, scale: 0.98, y: 10 }}
+      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.05 }}
+      whileHover={{ scale: 1.015, boxShadow: "0 0 50px rgba(34,211,238,0.14)" }}
+      whileTap={{ scale: 0.995 }}
       style={{ transformStyle: "preserve-3d" }}
     >
       <span
@@ -62,10 +64,8 @@ export default function ProjectCard({
               {title}
             </div>
           </div>
-          <div className="mt-1 h-10 w-10 rounded-2xl border border-white/10 bg-white/5 grid place-items-center ring-glow">
-            <span className="text-xs font-semibold text-cyan-200">
-              {stack.length}
-            </span>
+          <div className="mt-1 h-10 w-10 rounded-2xl border border-white/10 bg-white/5 grid place-items-center ring-glow group-hover:bg-cyan-500/15 transition-all duration-300">
+            <Code2 size={18} className="text-cyan-200 group-hover:scale-110 transition-transform" />
           </div>
         </div>
 
@@ -77,8 +77,11 @@ export default function ProjectCard({
           {stack.map((t) => (
             <motion.span
               key={t}
-              whileHover={{ scale: 1.03 }}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 + 0.04 * stack.indexOf(t) }}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(34,211,238,0.1)" }}
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold text-white/70 tracking-wider uppercase"
             >
               {t}
             </motion.span>
@@ -90,11 +93,10 @@ export default function ProjectCard({
             Click to expand
           </span>
           <motion.span
-            className="text-xs font-semibold text-white/60"
-            initial={{ x: 0 }}
+            className="text-xs font-bold text-cyan-200 inline-flex items-center gap-1.5"
             whileHover={{ x: 5 }}
           >
-            →
+            Details <ExternalLink size={12} />
           </motion.span>
         </div>
       </span>

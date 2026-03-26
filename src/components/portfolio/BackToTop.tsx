@@ -27,9 +27,9 @@ export default function BackToTop() {
         <motion.button
           type="button"
           aria-label="Back to top"
-          initial={{ opacity: 0, y: 14, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 14, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.85 }}
           transition={{ duration: 0.28, ease: "easeOut" }}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="fixed bottom-5 right-5 z-[70] flex h-11 w-11 items-center justify-center rounded-full bg-white/5 ring-glow border border-white/10 backdrop-blur hover:bg-white/10"

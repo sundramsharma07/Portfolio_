@@ -11,22 +11,26 @@
     --accent-secondary: #22D3EE;
     --accent-purple: #A78BFA;
     --border-subtle: rgba(229, 231, 235, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
   }
 
   html {
-    height: 100%;
-    scroll-behavior: smooth;
+    min-height: 100%;
+    height: 100svh;
+    overflow-x: hidden;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Inter', 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0F172A 0%, #111827 100%);
+    background: var(--bg-deep);
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    scroll-behavior: smooth;
+    min-height: 100svh;
     background: transparent;
     color: var(--text-primary);
+    overflow-x: hidden;
   }
 
   body::after {
@@ -35,14 +39,22 @@
     inset: 0;
     pointer-events: none;
     z-index: -2;
-    background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(34, 211, 238, 0.03) 0%, transparent 50%);
-    opacity: 1;
+    background: radial-gradient(circle at 20% 50%, var(--accent-primary), transparent 50%),
+      radial-gradient(circle at 80% 80%, var(--accent-secondary), transparent 50%);
+    opacity: 0.05;
+    transition: background 0.4s ease;
   }
 
   * {
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+  }
+
+  /* Only apply backface-visibility where it's actually helpful for transitions */
+  .motion-safe, [class*="motion-"], .glass, .glass-strong {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
+    transform: translateZ(0); /* Force hardware acceleration */
   }
 
   button,
@@ -65,21 +77,30 @@
   }
 
   .glass {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-subtle);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-radius: 12px;
   }
 
   .glass-strong {
-    background: rgba(59, 130, 246, 0.05);
-    border: 1px solid rgba(59, 130, 246, 0.15);
-    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.1), 0 0 0 1px rgba(59, 130, 246, 0.1) inset;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 12px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), 0 0 0 1px var(--glass-border) inset;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 16px;
+  }
+
+  /* Extreme stability for mobile/touch devices */
+  @media (hover: none) {
+    .glass, .glass-strong {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background: rgba(15, 23, 42, 0.85); /* Solid dark backup */
+    }
   }
 
   .ring-glow {
@@ -157,5 +178,18 @@
 @media (prefers-reduced-motion: no-preference) {
   .star-overlay-anim {
     animation: starDrift 18s linear infinite;
+    will-change: transform;
+  }
+}
+
+/* Prevent sticky hover on touch devices */
+@media (hover: none) {
+  button:hover,
+  a:hover,
+  .hover-glow:hover {
+    background-color: inherit;
+    color: inherit;
+    transform: none !important;
+    box-shadow: none !important;
   }
 }

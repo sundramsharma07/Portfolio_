@@ -32,9 +32,9 @@ export default function TrainingSection() {
               <div className="mt-7 relative">
                 <div className="absolute left-3 top-1 bottom-1 w-px bg-white/10" />
                 <motion.div
-                  className="absolute left-3 top-1 w-px bg-gradient-to-b from-cyan-300 via-violet-300 to-blue-300"
-                  initial={{ height: 0 }}
-                  whileInView={{ height: "calc(100% - 2px)" }}
+                  className="absolute left-3 top-1 w-px bg-gradient-to-b from-cyan-300 via-violet-300 to-blue-300 origin-top"
+                  initial={{ scaleY: 0 }}
+                  whileInView={{ scaleY: 1 }}
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 1.1, ease: "easeOut" }}
                 />
@@ -43,22 +43,15 @@ export default function TrainingSection() {
                   {TRAINING_STEPS.map((step, idx) => (
                     <motion.li
                       key={step.title}
-                      initial={{ opacity: 0, x: -16 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
                       viewport={{ once: true, amount: 0.2 }}
-                      transition={{ duration: 0.6, delay: idx * 0.08 }}
+                      transition={{ duration: 0.4, delay: idx * 0.06 }}
                       className="relative"
                     >
                       <div className="absolute -left-[15px] top-[7px] h-5 w-5 rounded-full bg-white/5 ring-1 ring-white/15 grid place-items-center">
-                        <motion.span
+                        <span
                           className="h-2.5 w-2.5 rounded-full bg-cyan-200 shadow-[0_0_26px_rgba(34,211,238,0.45)]"
-                          animate={{ scale: [0.9, 1.2, 0.95] }}
-                          transition={{
-                            duration: 1.8,
-                            repeat: Infinity,
-                            delay: idx * 0.2,
-                            ease: "easeInOut",
-                          }}
                         />
                       </div>
 
@@ -94,10 +87,10 @@ export default function TrainingSection() {
 
                 <motion.div
                   className="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true, amount: 0.25 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
+                  transition={{ duration: 0.4, delay: 0.1 }}
                 >
                   <div className="flex items-center justify-between">
                     <div className="text-sm font-semibold text-white/90">

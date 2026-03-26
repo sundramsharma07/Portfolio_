@@ -41,10 +41,10 @@ export default function ProjectModal({
           <motion.div
             role="dialog"
             aria-modal="true"
-            initial={{ opacity: 0, y: 22, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 22, scale: 0.98 }}
-            transition={{ duration: 0.22 }}
+            initial={{ opacity: 0, scale: 0.97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.97 }}
+            transition={{ duration: 0.2 }}
             className={cn("relative w-full max-w-3xl glass-strong rounded-[2.2rem] overflow-hidden")}
           >
             <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_0%_0%,rgba(34,211,238,0.18),transparent_55%),radial-gradient(700px_circle_at_100%_20%,rgba(99,102,241,0.18),transparent_55%)]" />
@@ -74,11 +74,11 @@ export default function ProjectModal({
                 <div className="mt-4 flex flex-wrap gap-2">
                   {project.liveUrl && project.showLivePreview !== false ? (
                     <motion.a
-                      whileHover={{ y: -2 }}
+                      whileHover={{ scale: 1.03 }}
                       href={project.liveUrl}
                       target="_blank"
                       rel="noreferrer"
-                      className="rounded-2xl bg-gradient-to-r from-cyan-300 via-violet-300 to-blue-300 px-5 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5 inline-flex items-center gap-2"
+                      className="rounded-2xl bg-gradient-to-r from-cyan-300 via-violet-300 to-blue-300 px-5 py-3 text-sm font-semibold text-black inline-flex items-center gap-2"
                     >
                       <ExternalLink size={16} />
                       Open Live
@@ -87,7 +87,7 @@ export default function ProjectModal({
 
                   {project.repoUrl ? (
                     <motion.a
-                      whileHover={{ y: -2 }}
+                      whileHover={{ scale: 1.03 }}
                       href={project.repoUrl}
                       target="_blank"
                       rel="noreferrer"
@@ -142,9 +142,9 @@ export default function ProjectModal({
                   {project.highlights.map((h, idx) => (
                     <motion.div
                       key={h}
-                      initial={{ opacity: 0, x: -14 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.28, delay: idx * 0.05 }}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 0.2, delay: idx * 0.04 }}
                       className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/7 transition-colors"
                     >
                       <div className="text-sm font-semibold text-white/90">

@@ -98,7 +98,7 @@ export default function ContactSection() {
                     <div className="text-xs text-white/55">Social</div>
                     <div className="mt-3 flex items-center gap-3">
                       <motion.a
-                        whileHover={{ y: -2 }}
+                      whileHover={{ scale: 1.08 }}
                         href={SOCIAL_LINKS.github}
                         target="_blank"
                         rel="noreferrer"
@@ -108,7 +108,7 @@ export default function ContactSection() {
                         <ExternalLink size={18} className="text-white/85" />
                       </motion.a>
                       <motion.a
-                        whileHover={{ y: -2 }}
+                      whileHover={{ scale: 1.08 }}
                         href={SOCIAL_LINKS.linkedin}
                         target="_blank"
                         rel="noreferrer"
@@ -128,10 +128,10 @@ export default function ContactSection() {
             <Reveal delayMs={170}>
               <motion.div
                 className="glass-strong rounded-[2.4rem] p-6 sm:p-7 relative overflow-hidden"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.65 }}
+                transition={{ duration: 0.5 }}
               >
                 <div className="absolute inset-0 bg-[radial-gradient(700px_circle_at_25%_0%,rgba(34,211,238,0.12),transparent_55%),radial-gradient(650px_circle_at_100%_25%,rgba(168,85,247,0.12),transparent_55%)]" />
 
@@ -222,7 +222,7 @@ export default function ContactSection() {
                       disabled={!canSend || sending}
                       whileHover={
                         canSend && !sending
-                          ? { y: -2, boxShadow: "0 0 40px rgba(34,211,238,0.18)" }
+                          ? { scale: 1.03, boxShadow: "0 0 40px rgba(34,211,238,0.18)" }
                           : undefined
                       }
                       whileTap={{ scale: 0.99 }}

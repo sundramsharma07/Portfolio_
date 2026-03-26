@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 
 import { SOCIAL_LINKS } from "@/data/portfolio";
 
@@ -23,24 +24,24 @@ export default function Footer() {
 
             <div className="flex items-center gap-3">
               <motion.a
-                whileHover={{ y: -2 }}
+                whileHover={{ scale: 1.08, backgroundColor: "rgba(255,255,255,0.1)" }}
                 href={SOCIAL_LINKS.github}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-2xl border border-white/10 bg-white/5 p-3 hover:bg-white/10 transition-colors"
+                className="rounded-2xl border border-white/10 bg-white/5 p-3 hover:text-cyan-400 transition-all"
                 aria-label="GitHub"
               >
-                <ExternalLink size={18} className="text-white/85" />
+                <FaGithub size={20} className="text-white/85 group-hover:text-cyan-400" />
               </motion.a>
               <motion.a
-                whileHover={{ y: -2 }}
+                whileHover={{ scale: 1.08, backgroundColor: "rgba(255,255,255,0.1)" }}
                 href={SOCIAL_LINKS.linkedin}
                 target="_blank"
                 rel="noreferrer"
-                className="rounded-2xl border border-white/10 bg-white/5 p-3 hover:bg-white/10 transition-colors"
+                className="rounded-2xl border border-white/10 bg-white/5 p-3 hover:text-blue-400 transition-all"
                 aria-label="LinkedIn"
               >
-                <ExternalLink size={18} className="text-white/85" />
+                <FaLinkedinIn size={20} className="text-white/85 group-hover:text-blue-400" />
               </motion.a>
             </div>
           </div>

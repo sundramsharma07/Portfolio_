@@ -58,10 +58,10 @@ export default function About() {
 
         <Reveal delayMs={80}>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.4 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             className="mt-4"
           >
             <h2 className="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-violet-300 to-blue-300">
@@ -133,10 +133,10 @@ export default function About() {
                 </motion.div>
 
                 <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.6, delay: 0.1 }}
+                  transition={{ duration: 0.45, delay: 0.1 }}
                   className="mt-6 grid grid-cols-2 gap-4"
                 >
                   {[
@@ -166,15 +166,15 @@ export default function About() {
                   ].map((chip, idx) => (
                     <motion.span
                       key={chip}
-                      initial={{ opacity: 0, y: 8 }}
-                      whileInView={{ opacity: 1, y: 0 }}
+                      initial={{ opacity: 0 }}
+                      whileInView={{ opacity: 1 }}
                       viewport={{ once: true, amount: 0.25 }}
-                      transition={{ duration: 0.55, delay: idx * 0.05 }}
+                      transition={{ duration: 0.4, delay: idx * 0.04 }}
                       className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 hover:bg-white/7 transition-colors"
                       whileHover={
                         reducedMotion
                           ? undefined
-                          : { y: -2, boxShadow: "0 0 40px rgba(34,211,238,0.16)" }
+                          : { scale: 1.05, boxShadow: "0 0 20px rgba(34,211,238,0.12)" }
                       }
                     >
                       {chip}
@@ -209,10 +209,10 @@ export default function About() {
                 ].map((x, idx) => (
                   <motion.div
                     key={x.title}
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
                     viewport={{ once: true, amount: 0.25 }}
-                    transition={{ duration: 0.55, delay: idx * 0.08 }}
+                    transition={{ duration: 0.45, delay: idx * 0.06 }}
                     className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/7 transition-colors"
                   >
                     <div className="text-sm font-semibold text-white/90">

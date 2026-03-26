@@ -8,13 +8,7 @@ import { cn } from "@/lib/cn";
 type RevealProps = {
   children: ReactNode;
   className?: string;
-  /**
-   * When `once` is true, the element animates only the first time it enters view.
-   */
   once?: boolean;
-  /**
-   * How much of the element must be visible before it reveals.
-   */
   amount?: number;
   delayMs?: number;
 };
@@ -23,18 +17,18 @@ export default function Reveal({
   children,
   className,
   once = true,
-  amount = 0.18,
+  amount = 0.1,
   delayMs = 0,
 }: RevealProps) {
   return (
     <motion.div
-      className={cn(className, "will-change-auto")}
-      initial={{ opacity: 0, y: 26, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      className={cn(className)}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once, amount }}
       transition={{
-        duration: 0.65,
-        ease: [0.25, 0.46, 0.45, 0.94],
+        duration: 0.6,
+        ease: [0.22, 1, 0.36, 1],
         delay: delayMs / 1000,
       }}
     >

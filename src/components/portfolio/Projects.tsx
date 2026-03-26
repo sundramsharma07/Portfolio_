@@ -56,10 +56,10 @@ export default function ProjectsSection() {
 
         <motion.div
           className="mt-10 rounded-3xl glass-strong p-6 sm:p-7 relative overflow-hidden"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.5 }}
         >
           <div className="absolute inset-0 bg-[radial-gradient(700px_circle_at_15%_0%,rgba(34,211,238,0.16),transparent_55%),radial-gradient(650px_circle_at_95%_30%,rgba(99,102,241,0.14),transparent_55%)]" />
           <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -72,7 +72,7 @@ export default function ProjectsSection() {
               </div>
             </div>
             <motion.a
-              whileHover={{ y: -2 }}
+              whileHover={{ scale: 1.02 }}
               href="https://github.com/sundramsharma07"
               target="_blank"
               rel="noreferrer"

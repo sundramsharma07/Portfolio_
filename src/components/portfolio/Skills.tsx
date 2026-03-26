@@ -9,9 +9,12 @@ import Reveal from "@/components/portfolio/Reveal";
 
 function Chip({ children }: { children: ReactNode }) {
   return (
-    <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80">
+    <motion.span 
+      whileHover={{ scale: 1.05, backgroundColor: "rgba(34, 211, 238, 0.15)", borderColor: "rgba(34, 211, 238, 0.3)" }}
+      className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 cursor-default transition-colors duration-300"
+    >
       {children}
-    </span>
+    </motion.span>
   );
 }
 
@@ -32,10 +35,10 @@ function MarqueeRow({
   return (
     <motion.div
       className="glass-strong rounded-[2.3rem] border border-white/10 p-5 overflow-hidden relative"
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.6, delay: delaySeconds }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, delay: delaySeconds }}
     >
       <div className="relative">
         <div className="flex items-center justify-between gap-4">
