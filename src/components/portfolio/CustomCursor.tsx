@@ -17,25 +17,35 @@ export default function CustomCursor() {
 
   useEffect(() => {
     setMounted(true);
+
     const onMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX - 10);
       mouseY.set(e.clientY - 10);
+    };
 
-      // Check if hovering over a button or link
+    const onMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (
-        target.closest("button") ||
-        target.closest("a") ||
-        target.closest('[role="button"]')
-      ) {
+      if (target.closest("button, a, [role='button']")) {
         setMode("magnify");
-      } else {
+      }
+    };
+
+    const onMouseOut = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest("button, a, [role='button']")) {
         setMode("default");
       }
     };
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseover", onMouseOver, { passive: true });
+    window.addEventListener("mouseout", onMouseOut, { passive: true });
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseover", onMouseOver);
+      window.removeEventListener("mouseout", onMouseOut);
+    };
   }, [mouseX, mouseY]);
 
   if (!mounted || reducedMotion) return null;

@@ -76,7 +76,12 @@
     color: var(--text-primary);
   }
 
-  .glass {
+  section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 1000px;
+}
+
+.glass {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
@@ -182,8 +187,28 @@
   }
 }
 
-/* Prevent sticky hover on touch devices */
-@media (hover: none) {
+  @keyframes blobPulse {
+    0%, 100% {
+      transform: scale(1) translate(0, 0);
+      opacity: 0.6;
+    }
+    33% {
+      transform: scale(1.15) translate(10px, -15px);
+      opacity: 0.85;
+    }
+    66% {
+      transform: scale(0.9) translate(-15px, 10px);
+      opacity: 0.7;
+    }
+  }
+
+  .animate-blob-pulse {
+    animation: blobPulse 15s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  /* Prevent sticky hover on touch devices */
+  @media (hover: none) {
   button:hover,
   a:hover,
   .hover-glow:hover {

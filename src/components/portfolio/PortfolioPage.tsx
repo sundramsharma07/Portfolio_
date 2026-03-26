@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import AnimatedBackground from "@/components/portfolio/AnimatedBackground";
@@ -13,12 +13,13 @@ import Hero from "@/components/portfolio/Hero";
 import About from "@/components/portfolio/About";
 import Skills from "@/components/portfolio/Skills";
 import Projects from "@/components/portfolio/Projects";
-import Training from "@/components/portfolio/Training";
-import Certificates from "@/components/portfolio/Certificates";
-import Achievements from "@/components/portfolio/Achievements";
-import Education from "@/components/portfolio/Education";
-import Resume from "@/components/portfolio/Resume";
-import Contact from "@/components/portfolio/Contact";
+
+const Training = lazy(() => import("@/components/portfolio/Training"));
+const Certificates = lazy(() => import("@/components/portfolio/Certificates"));
+const Achievements = lazy(() => import("@/components/portfolio/Achievements"));
+const Education = lazy(() => import("@/components/portfolio/Education"));
+const Resume = lazy(() => import("@/components/portfolio/Resume"));
+const Contact = lazy(() => import("@/components/portfolio/Contact"));
 import Footer from "@/components/portfolio/Footer";
 
 function Separator({ idx }: { idx: number }) {
@@ -111,17 +112,21 @@ export default function PortfolioPage() {
         <Separator idx={2} />
         <Projects />
         <Separator idx={3} />
-        <Training />
-        <Separator idx={4} />
-        <Certificates />
-        <Separator idx={5} />
-        <Achievements />
-        <Separator idx={6} />
-        <Education />
-        <Separator idx={7} />
-        <Resume />
-        <Separator idx={8} />
-        <Contact />
+        
+        <Suspense fallback={<div className="h-20" />}>
+          <Training />
+          <Separator idx={4} />
+          <Certificates />
+          <Separator idx={5} />
+          <Achievements />
+          <Separator idx={6} />
+          <Education />
+          <Separator idx={7} />
+          <Resume />
+          <Separator idx={8} />
+          <Contact />
+        </Suspense>
+        
         <Footer />
       </motion.main>
 

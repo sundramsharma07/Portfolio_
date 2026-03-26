@@ -64,14 +64,19 @@ export default function SideNav() {
     }
   };
 
-  const isExpanded = expanded && !isTouch;
+  const isExpanded = expanded;
 
   return (
     <aside className="fixed right-4 sm:right-6 top-1/2 -translate-y-1/2 z-[60] select-none">
       <motion.div
+        layout
         className="relative glass-strong border border-white/10 shadow-2xl overflow-hidden"
         animate={{ width: isExpanded ? 200 : 48, height: isExpanded ? "auto" : 48 }}
-        style={{ borderRadius: isExpanded ? 24 : 14 }}
+        style={{ 
+          borderRadius: isExpanded ? 24 : 14,
+          willChange: "width, height, border-radius",
+          transform: "translateZ(0)"
+        }}
         transition={{ type: "spring", stiffness: 400, damping: 30 }}
         onMouseEnter={() => !isTouch && setExpanded(true)}
         onMouseLeave={() => !isTouch && setExpanded(false)}
@@ -81,9 +86,19 @@ export default function SideNav() {
           {/* Collapsed state placeholder or Header */}
           {!isExpanded && (
             <div className="flex h-12 w-12 items-center justify-center">
-              <div className="h-8 w-8 rounded-xl border border-cyan-500/30 bg-cyan-500/5 flex items-center justify-center font-bold text-cyan-400 text-[10px] tracking-tighter shadow-[0_0_15px_rgba(34,211,238,0.15)]">
+              <motion.div 
+                animate={{ 
+                  boxShadow: [
+                    "0 0 10px rgba(34,211,238,0.2)",
+                    "0 0 20px rgba(34,211,238,0.4)",
+                    "0 0 10px rgba(34,211,238,0.2)"
+                  ]
+                }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="h-8 w-8 rounded-xl border border-cyan-500/30 bg-cyan-500/5 flex items-center justify-center font-bold text-cyan-400 text-[10px] tracking-tighter shadow-[0_0_15px_rgba(34,211,238,0.15)]"
+              >
                 SK
-              </div>
+              </motion.div>
             </div>
           )}
 

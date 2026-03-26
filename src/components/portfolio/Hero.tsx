@@ -78,9 +78,14 @@ export default function Hero() {
               transition={{ duration: 0.6, ease: "easeOut" }}
               className="relative"
             >
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/75">
-                <span className="inline-block h-2 w-2 rounded-full bg-yellow-300 shadow-[0_0_18px_rgba(255,215,0,0.65)]" />
-                Available for Internships
+              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-white/75 relative overflow-hidden group">
+                <motion.span 
+                  className="absolute inset-0 bg-yellow-400/5 blur-xl"
+                  animate={{ opacity: [0.3, 0.6, 0.3] }}
+                  transition={{ duration: 3, repeat: Infinity }}
+                />
+                <span className="relative inline-block h-2 w-2 rounded-full bg-yellow-300 shadow-[0_0_18px_rgba(255,215,0,0.8)]" />
+                <span className="relative">Available for Internships</span>
               </div>
 
               {/* Name with large cursive font and typing effect – no extra space */}
@@ -92,13 +97,13 @@ export default function Hero() {
               >
                 <div className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] sm:leading-[1.1]">
                   <span
-                    className="bg-gradient-to-r from-pink-200 via-orange-200 to-purple-200 bg-clip-text text-transparent"
+                    className="bg-gradient-to-r from-pink-200 via-orange-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
                     style={{ fontFamily: "'Dancing Script', cursive" }}
                   >
                     {nameTyped}
                   </span>
                   <motion.span
-                    className="inline-block h-[0.9em] w-[4px] bg-cyan-400 align-middle ml-1.5"
+                    className="inline-block h-[0.9em] w-[4px] bg-cyan-400 align-middle ml-1.5 shadow-[0_0_10px_rgba(34,211,238,0.8)]"
                     animate={{ opacity: [1, 1, 0, 0] }}
                     transition={{ duration: 0.8, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
                   />
@@ -106,7 +111,7 @@ export default function Hero() {
               </motion.div>
 
               <h1 className="mt-6 text-3xl sm:text-5xl lg:text-6xl font-semibold leading-[1.2] sm:leading-[1.05] tracking-tight">
-                <span className="block bg-gradient-to-r from-pink-200 via-orange-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_22px_rgba(255,20,147,0.18)]">
+                <span className="block bg-gradient-to-r from-pink-200 via-orange-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,20,147,0.25)]">
                   {splitLetters("Sundram Kumar").map(({ ch, idx }) => (
                     <motion.span
                       key={`${ch}-${idx}`}
@@ -134,12 +139,12 @@ export default function Hero() {
                     {typed}
                   </motion.span>
                   <motion.span
-                    className="ml-1 inline-block h-[0.9em] w-[2px] bg-pink-300 align-middle"
+                    className="ml-1 inline-block h-[0.9em] w-[2px] bg-pink-300 align-middle shadow-[0_0_8px_rgba(244,114,182,0.8)]"
                     animate={{ opacity: [1, 0] }}
                     transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
                   />
                 </span>{" "}
-                <span className="text-white/60 block sm:inline">that empower users and businesses alike.</span>
+                <span className="text-white/60 block sm:inline">Empowering users and businesses alike.</span>
               </div>
 
               <p className="mt-5 max-w-xl text-sm sm:text-base text-white/60 leading-relaxed">
@@ -148,7 +153,7 @@ export default function Hero() {
 
               <div className="mt-7 flex flex-wrap items-center gap-3">
                 <motion.button
-                  whileHover={{ scale: 1.03 }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 0 20px rgba(255,255,255,0.1)" }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => scrollToId("projects")}
                   className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white/90 transition-all hover:bg-white/10"
@@ -158,7 +163,7 @@ export default function Hero() {
                 </motion.button>
 
                 <motion.button
-                  whileHover={{ scale: 1.03 }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 0 25px rgba(244,114,182,0.4)" }}
                   whileTap={{ scale: 0.97 }}
                   onClick={() => scrollToId("contact")}
                   className="rounded-2xl bg-gradient-to-r from-pink-400 via-orange-400 to-purple-400 px-5 py-3 text-sm font-semibold text-black transition-all hover:-translate-y-0.5"
@@ -217,7 +222,7 @@ export default function Hero() {
 
           <div className="lg:col-span-5 relative">
             <motion.div
-              className="absolute -inset-8 rounded-[3rem] bg-[radial-gradient(circle_at_top,rgba(255,20,147,0.18),transparent_60%),radial-gradient(circle_at_bottom,rgba(157,78,221,0.16),transparent_55%)] blur-[1px]"
+              className="absolute -inset-8 rounded-[3rem] bg-[radial-gradient(circle_at_top,rgba(255,20,147,0.22),transparent_60%),radial-gradient(circle_at_bottom,rgba(157,78,221,0.2),transparent_55%)] blur-[2px]"
               style={{
                 transformStyle: "preserve-3d",
                 x: reducedMotion ? 0 : parX,
@@ -229,8 +234,8 @@ export default function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.25 }}
-              className="glass-strong relative overflow-hidden rounded-[2.3rem] p-0 group"
-              whileHover={{ scale: 1.02 }}
+              className="glass-strong relative overflow-hidden rounded-[2.3rem] p-0 group ring-1 ring-white/10 shadow-[0_0_30px_rgba(255,20,147,0.1)]"
+              whileHover={{ scale: 1.02, boxShadow: "0 0 50px rgba(255,20,147,0.25)", borderColor: "rgba(255,20,147,0.3)" }}
             >
               <img
                 src="/school-kid.avif"
@@ -238,24 +243,33 @@ export default function Hero() {
                 className="w-full h-full object-cover rounded-[2.3rem] transition-transform duration-500 group-hover:scale-105"
               />
               <motion.div
-                className="absolute inset-0 rounded-[2.3rem] bg-gradient-to-br from-pink-500/20 via-orange-500/15 to-purple-500/20 pointer-events-none"
+                className="absolute inset-0 rounded-[2.3rem] bg-gradient-to-br from-pink-500/20 via-orange-500/15 to-purple-500/25 pointer-events-none"
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
               />
               <motion.div
-                className="absolute inset-0 rounded-[2.3rem] shadow-[inset_0_0_40px_rgba(255,20,147,0.25)] pointer-events-none"
+                className="absolute inset-0 rounded-[2.3rem] shadow-[inset_0_0_60px_rgba(255,20,147,0.35)] pointer-events-none"
                 initial={{ opacity: 0 }}
                 whileHover={{ opacity: 1 }}
                 transition={{ duration: 0.4 }}
               />
+              
+              {/* Animated glow edge */}
+              <motion.div 
+                className="absolute -inset-[500%] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,20,147,0.2)_90deg,transparent_180deg)]"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              />
             </motion.div>
 
             <motion.div
-              className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-gradient-to-br from-pink-500/40 to-purple-500/20 blur-2xl animate-floating"
+              className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-gradient-to-br from-pink-500/50 to-purple-500/30 blur-3xl animate-floating"
               aria-hidden
               animate={{
-                y: [0, -10, 0],
+                y: [0, -15, 0],
+                scale: [1, 1.1, 1],
+                opacity: [0.3, 0.5, 0.3]
               }}
               transition={{
                 duration: 4,
@@ -264,10 +278,12 @@ export default function Hero() {
               }}
             />
             <motion.div
-              className="absolute -top-8 -left-8 h-28 w-28 rounded-full bg-gradient-to-br from-orange-500/30 to-pink-500/20 blur-2xl animate-floating"
+              className="absolute -top-8 -left-8 h-28 w-28 rounded-full bg-gradient-to-br from-orange-500/40 to-pink-500/30 blur-3xl animate-floating"
               aria-hidden
               animate={{
-                y: [0, 10, 0],
+                y: [0, 15, 0],
+                scale: [1, 1.1, 1],
+                opacity: [0.2, 0.4, 0.2]
               }}
               transition={{
                 duration: 5,

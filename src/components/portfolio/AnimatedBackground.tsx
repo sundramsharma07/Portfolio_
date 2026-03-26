@@ -38,49 +38,44 @@ export default function AnimatedBackground() {
 
   const particles = useMemo(() => {
     const rnd = mulberry32(1337);
-    const count = (reducedMotion || isTouch) ? 10 : 40;
+    const count = (reducedMotion || isTouch) ? 4 : 15;
     return Array.from({ length: count }).map((_, i) => ({
       i,
       x: rnd() * 100,
       y: rnd() * 100,
-      size: 0.5 + rnd() * 1.5,
-      dur: 2 + rnd() * 4,
+      size: 0.8 + rnd() * 1.2,
+      dur: 3 + rnd() * 6,
       delay: rnd() * 5,
-      opacity: 0.2 + rnd() * 0.5,
+      opacity: 0.15 + rnd() * 0.4,
     }));
-  }, [reducedMotion]);
+  }, [reducedMotion, isTouch]);
 
   const meteors = useMemo(() => {
     const rnd = mulberry32(42);
-    const count = (reducedMotion || isTouch) ? 2 : 6;
+    const count = (reducedMotion || isTouch) ? 0 : 3;
     return Array.from({ length: count }).map((_, i) => ({
       i,
       left: 10 + rnd() * 80,
       delay: rnd() * 10,
       dur: 2 + rnd() * 4,
     }));
-  }, [reducedMotion]);
+  }, [reducedMotion, isTouch]);
 
   useEffect(() => {
     if (reducedMotion || isTouch) return;
 
     let raf = 0;
-    let lx = 0;
-    let ly = 0;
-
+    let lx = 0, ly = 0;
     const cx = window.innerWidth / 2;
     const cy = window.innerHeight / 2;
 
     const onMove = (e: MouseEvent) => {
-      lx = e.clientX;
-      ly = e.clientY;
+      lx = e.clientX; ly = e.clientY;
       if (raf) return;
       raf = window.requestAnimationFrame(() => {
         raf = 0;
-        const nx = (lx - cx) / cx; // [-1..1]
-        const ny = (ly - cy) / cy;
-        mx.set(nx);
-        my.set(ny);
+        mx.set((lx - cx) / cx);
+        my.set((ly - cy) / cy);
       });
     };
 
@@ -92,45 +87,33 @@ export default function AnimatedBackground() {
   }, [mx, my, reducedMotion, isTouch]);
 
   return (
-    <div className="pointer-events-none absolute inset-0 -z-[1] overflow-hidden">
-      <div className="absolute inset-0 star-overlay star-overlay-anim" />
+    <div className="pointer-events-none absolute inset-0 -z-[1] overflow-hidden" style={{ contain: "paint" }}>
+      <div className="absolute inset-0 star-overlay star-overlay-anim" style={{ willChange: "transform" }} />
 
       <div
-        className="absolute inset-0 opacity-55"
+        className="absolute inset-0 opacity-40"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "52px 52px",
+            "linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
           maskImage:
-            "radial-gradient(900px 500px at 50% 15%, black 40%, transparent 70%)",
+            "radial-gradient(1000px 600px at 50% 15%, black 30%, transparent 80%)",
         }}
       />
 
-      <div className="absolute inset-0 opacity-70">
-        <div className="absolute -left-20 top-10 h-[420px] w-[420px] rounded-full bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.25),transparent_60%)] blur-2xl" />
-        <div className="absolute right-0 top-40 h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.22),transparent_60%)] blur-2xl" />
+      <div className="absolute inset-0 opacity-60">
+        <div className="absolute -left-20 top-10 h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle_at_center,rgba(56,189,248,0.2),transparent_60%)] blur-3xl opacity-50" />
+        <div className="absolute right-0 top-40 h-[500px] w-[500px] rounded-full bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.18),transparent_60%)] blur-3xl opacity-50" />
       </div>
 
       <motion.div
-        className="absolute left-[-10%] top-[12%] h-[280px] w-[280px] rounded-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.22),transparent_62%)] blur-3xl ring-glow"
-        style={{ x: blob1X, y: blob1Y }}
-        animate={reducedMotion ? undefined : { opacity: [0.85, 1, 0.85] }}
-        transition={
-          reducedMotion
-            ? undefined
-            : { duration: 6, repeat: Infinity, ease: "easeInOut" }
-        }
+        className="absolute left-[-10%] top-[12%] h-[280px] w-[280px] rounded-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.2),transparent_62%)] blur-3xl"
+        style={{ x: blob1X, y: blob1Y, willChange: "transform" }}
       />
 
       <motion.div
-        className="absolute right-[-12%] top-[55%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.18),transparent_60%)] blur-3xl ring-glow"
-        style={{ x: blob2X, y: blob2Y }}
-        animate={reducedMotion ? undefined : { opacity: [0.8, 1, 0.8] }}
-        transition={
-          reducedMotion
-            ? undefined
-            : { duration: 8, repeat: Infinity, ease: "easeInOut" }
-        }
+        className="absolute right-[-12%] top-[55%] h-[360px] w-[360px] rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.16),transparent_60%)] blur-3xl"
+        style={{ x: blob2X, y: blob2Y, willChange: "transform" }}
       />
 
       {particles.map((p) => (
@@ -143,16 +126,17 @@ export default function AnimatedBackground() {
             width: p.size,
             height: p.size,
             opacity: p.opacity,
+            willChange: "transform, opacity"
           }}
           animate={reducedMotion ? undefined : {
-            opacity: [p.opacity * 0.3, p.opacity, p.opacity * 0.3],
-            scale: [0.8, 1.1, 0.8],
+            opacity: [p.opacity * 0.4, p.opacity, p.opacity * 0.4],
+            scale: [0.9, 1.1, 0.9],
           }}
           transition={{
             duration: p.dur,
             repeat: Infinity,
             delay: p.delay,
-            ease: "easeInOut",
+            ease: "linear", // Linear is cheaper than easeInOut
           }}
         />
       ))}
@@ -160,12 +144,13 @@ export default function AnimatedBackground() {
       {meteors.map((m) => (
         <motion.div
           key={`meteor-${m.i}`}
-          className="absolute h-0.5 w-0.5 rotate-[215deg] bg-gradient-to-r from-cyan-400 to-transparent shadow-[0_0_0_1px_rgba(34,211,238,0.1)]"
+          className="absolute h-0.5 w-0.5 rotate-[215deg] bg-gradient-to-r from-cyan-400/60 to-transparent"
           style={{
             left: `${m.left}%`,
             top: "-10%",
             width: "1.5px",
-            height: "120px",
+            height: "100px",
+            willChange: "transform"
           }}
           animate={{
             transform: ["translate3d(0, 0, 0)", "translate3d(-400px, 800px, 0)"],
@@ -175,55 +160,29 @@ export default function AnimatedBackground() {
             duration: m.dur,
             repeat: Infinity,
             delay: m.delay,
-            repeatDelay: 8 + Math.random() * 12,
+            repeatDelay: 12 + Math.random() * 15,
             ease: "linear",
           }}
         />
       ))}
 
-      <motion.div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(6,182,212,0.14),transparent_60%)]"
-        animate={
-          reducedMotion ? undefined : { opacity: [0.35, 0.65, 0.35] }
-        }
-        transition={
-          reducedMotion ? undefined : { duration: 10, repeat: Infinity, ease: "easeInOut" }
-        }
-      />
-
-      {/* Corner Animations - Extreme Fixed Nebula Glows */}
+      {/* Optimized Backround Nebula - Use CSS Animation */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <motion.div
-          className="absolute -top-[5%] -left-[5%] h-[40svh] w-[40svw] rounded-full bg-cyan-400/40 blur-[80px]"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.6, 0.9, 0.6],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        <div 
+          className="absolute -top-[5%] -left-[5%] h-[40svh] w-[40svw] rounded-full bg-cyan-400/20 blur-[100px] animate-blob-pulse" 
+          style={{ animationDelay: "0s" }}
         />
-        <motion.div
-          className="absolute -top-[5%] -right-[5%] h-[40svh] w-[40svw] rounded-full bg-purple-500/35 blur-[80px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        <div 
+          className="absolute -top-[5%] -right-[5%] h-[40svh] w-[40svw] rounded-full bg-purple-500/18 blur-[100px] animate-blob-pulse" 
+          style={{ animationDelay: "-4s" }}
         />
-        <motion.div
-          className="absolute -bottom-[5%] -left-[5%] h-[40svh] w-[40svw] rounded-full bg-indigo-500/35 blur-[80px]"
-          animate={{
-            scale: [1.1, 1.3, 1.1],
-            opacity: [0.6, 0.9, 0.6],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        <div 
+          className="absolute -bottom-[5%] -left-[5%] h-[40svh] w-[40svw] rounded-full bg-indigo-500/18 blur-[100px] animate-blob-pulse" 
+          style={{ animationDelay: "-8s" }}
         />
-        <motion.div
-          className="absolute -bottom-[5%] -right-[5%] h-[40svh] w-[40svw] rounded-full bg-blue-500/40 blur-[80px]"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.5, 0.8, 0.5],
-          }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        <div 
+          className="absolute -bottom-[5%] -right-[5%] h-[40svh] w-[40svw] rounded-full bg-blue-500/20 blur-[100px] animate-blob-pulse" 
+          style={{ animationDelay: "-12s" }}
         />
       </div>
     </div>

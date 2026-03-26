@@ -55,16 +55,17 @@ export default function ProjectsSection() {
         </div>
 
         <motion.div
-          className="mt-10 rounded-3xl glass-strong p-6 sm:p-7 relative overflow-hidden"
+          className="mt-10 rounded-3xl glass-strong p-6 sm:p-7 relative overflow-hidden ring-1 ring-white/10 shadow-[0_0_30px_rgba(34,211,238,0.1)]"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
+          whileHover={{ boxShadow: "0 0 40px rgba(34,211,238,0.2)", borderColor: "rgba(34,211,238,0.3)" }}
         >
-          <div className="absolute inset-0 bg-[radial-gradient(700px_circle_at_15%_0%,rgba(34,211,238,0.16),transparent_55%),radial-gradient(650px_circle_at_95%_30%,rgba(99,102,241,0.14),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(800px_circle_at_15%_0%,rgba(34,211,238,0.2),transparent_60%),radial-gradient(750px_circle_at_95%_30%,rgba(99,102,241,0.18),transparent_60%)]" />
           <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
-              <div className="text-sm font-semibold text-white/90">
+              <div className="text-sm font-semibold text-white/90 group-hover:text-cyan-200 transition-colors">
                 Click to open detailed project view
               </div>
               <div className="mt-1 text-sm text-white/60">
@@ -72,11 +73,11 @@ export default function ProjectsSection() {
               </div>
             </div>
             <motion.a
-              whileHover={{ scale: 1.02 }}
+              whileHover={{ scale: 1.02, boxShadow: "0 0 25px rgba(34,211,238,0.4)" }}
               href="https://github.com/sundramsharma07"
               target="_blank"
               rel="noreferrer"
-              className="rounded-2xl bg-gradient-to-r from-cyan-300 via-violet-300 to-blue-300 px-5 py-3 text-sm font-semibold text-black transition-transform hover:-translate-y-0.5"
+              className="rounded-2xl bg-gradient-to-r from-cyan-300 via-violet-300 to-blue-300 px-5 py-3 text-sm font-semibold text-black transition-all hover:-translate-y-0.5"
             >
               Visit GitHub
             </motion.a>
