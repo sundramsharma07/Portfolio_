@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Home, User, Code2, Briefcase, GraduationCap, Award,
-  FileCheck, ShieldCheck, Mail, FileText, Moon, Sun, Menu,
+  FileCheck, ShieldCheck, Mail, FileText, Menu,
 } from "lucide-react";
 
 import { NAV_ITEMS } from "@/data/portfolio";
@@ -41,138 +41,159 @@ export default function SideNav() {
     [],
   );
   const activeId = useActiveSection(ids);
-  const [expanded, setExpanded] = useState(false);
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isTouch] = useState(() => typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
   const getIcon = (id: string) => {
     switch (id) {
-      case "home": return <Home size={18} />;
-      case "about": return <User size={18} />;
-      case "techstack": return <Code2 size={18} />;
-      case "projects": return <Briefcase size={18} />;
-      case "training": return <GraduationCap size={18} />;
-      case "certificates": return <FileCheck size={18} />;
-      case "achievements": return <Award size={18} />;
-      case "education": return <ShieldCheck size={18} />;
-      case "contact": return <Mail size={18} />;
-      case "resume": return <FileText size={18} />;
-      default: return <Menu size={18} />;
+      case "home": return <Home size={16} />;
+      case "about": return <User size={16} />;
+      case "techstack": return <Code2 size={16} />;
+      case "projects": return <Briefcase size={16} />;
+      case "training": return <GraduationCap size={16} />;
+      case "certificates": return <FileCheck size={16} />;
+      case "achievements": return <Award size={16} />;
+      case "education": return <ShieldCheck size={16} />;
+      case "contact": return <Mail size={16} />;
+      case "resume": return <FileText size={16} />;
+      default: return <Menu size={16} />;
     }
   };
 
-  const isExpanded = expanded;
-
   return (
     <aside className="fixed right-4 sm:right-6 top-1/2 -translate-y-1/2 z-[60] select-none">
-      <motion.div
-        layout
-        className="relative glass-strong border border-white/10 shadow-2xl overflow-hidden"
-        animate={{ width: isExpanded ? 200 : 48, height: isExpanded ? "auto" : 48 }}
-        style={{ 
-          borderRadius: isExpanded ? 24 : 14,
-          willChange: "width, height, border-radius",
-          transform: "translateZ(0)"
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-        onMouseEnter={() => !isTouch && setExpanded(true)}
-        onMouseLeave={() => !isTouch && setExpanded(false)}
-        onClick={() => isTouch && setExpanded(!expanded)}
-      >
-        <div className="flex flex-col items-stretch h-full">
-          {/* Collapsed state placeholder or Header */}
-          {!isExpanded && (
-            <div className="flex h-12 w-12 items-center justify-center">
-              <motion.div 
-                animate={{ 
-                  boxShadow: [
-                    "0 0 10px rgba(34,211,238,0.2)",
-                    "0 0 20px rgba(34,211,238,0.4)",
-                    "0 0 10px rgba(34,211,238,0.2)"
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                className="h-8 w-8 rounded-xl border border-cyan-500/30 bg-cyan-500/5 flex items-center justify-center font-bold text-cyan-400 text-[10px] tracking-tighter shadow-[0_0_15px_rgba(34,211,238,0.15)]"
-              >
-                SK
-              </motion.div>
-            </div>
-          )}
+      <div className="relative">
+        {/* Center SK Button - Transparent with glowing text */}
+        <motion.button
+          className="relative flex h-12 w-12 items-center justify-center rounded-full bg-transparent border border-cyan-500/20 shadow-2xl backdrop-blur-sm"
+          onMouseEnter={() => !isTouch && setIsMenuOpen(true)}
+          onMouseLeave={() => !isTouch && setIsMenuOpen(false)}
+          onClick={() => isTouch && setIsMenuOpen(!isMenuOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <motion.div
+            animate={{
+              boxShadow: [
+                "0 0 10px rgba(34,211,238,0.3)",
+                "0 0 20px rgba(34,211,238,0.6)",
+                "0 0 10px rgba(34,211,238,0.3)"
+              ]
+            }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex h-8 w-8 items-center justify-center rounded-full bg-transparent font-bold text-cyan-400 text-[10px] tracking-tighter"
+          >
+            SK
+          </motion.div>
+        </motion.button>
 
-          <AnimatePresence>
-            {isExpanded && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.2 }}
-                className="flex flex-col py-3 px-1.5 gap-1"
-              >
-                <div className="mb-2 px-3 text-[10px] font-bold text-cyan-400 uppercase tracking-widest">
-                  Navigation
-                </div>
+        {/* Semicircular Navigation Menu */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div
+              className="absolute right-0 top-1/2 -translate-y-1/2"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              onMouseEnter={() => !isTouch && setIsMenuOpen(true)}
+              onMouseLeave={() => !isTouch && setIsMenuOpen(false)}
+            >
+              {NAV_ITEMS.slice().reverse().map((item, index) => {
+                // Calculate semicircular positions on the left side with distance from corners
+                const totalItems = NAV_ITEMS.length;
+                const angleRange = Math.PI * 0.8; // 144 degrees (reduced from 180 to add distance from corners)
+                const startAngle = Math.PI / 2 + Math.PI * 0.1; // Start 18 degrees from vertical
+                const angleStep = angleRange / (totalItems - 1);
+                const angle = startAngle + index * angleStep;
+                const radius = 140; // Distance from center
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
 
-          {/* Nav items */}
-          {NAV_ITEMS.map((item) => {
-            const active = activeId === item.id;
-            return (
-              <div key={item.id} className="px-1.5">
-                <button
-                  onClick={() => {
-                    const el = document.getElementById(item.id);
-                    if (el) {
-                      const top = el.getBoundingClientRect().top + window.scrollY - 80;
-                      window.scrollTo({ top, behavior: "smooth" });
-                    }
-                  }}
-                  className={cn(
-                    "group relative flex w-full items-center gap-3 rounded-2xl px-1.5 py-2.5 transition-colors duration-150",
-                    active ? "bg-white/10" : "hover:bg-white/8"
-                  )}
-                >
-                  <span className={cn(
-                    "flex h-6 w-6 shrink-0 items-center justify-center transition-colors duration-150",
-                    active ? "text-cyan-400" : "text-white/45 group-hover:text-white"
-                  )}>
-                    {getIcon(item.id)}
-                  </span>
-
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.span
-                        initial={{ opacity: 0, x: -8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -6 }}
-                        transition={{ duration: 0.12 }}
-                        className={cn(
-                          "text-sm font-semibold whitespace-nowrap",
-                          active ? "text-white" : "text-white/50 group-hover:text-white"
-                        )}
-                      >
-                        {item.label}
-                      </motion.span>
+                return (
+                  <motion.button
+                    key={item.id}
+                    className={cn(
+                      "absolute flex h-12 w-12 items-center justify-center rounded-full border backdrop-blur-sm transition-all duration-200 z-10",
+                      activeId === item.id
+                        ? "border-cyan-400/50 bg-cyan-500/10 shadow-[0_0_20px_rgba(34,211,238,0.3)]"
+                        : "border-white/10 bg-white/5 shadow-lg hover:border-white/20 hover:bg-white/10 hover:shadow-[0_0_15px_rgba(255,255,255,0.1)]"
                     )}
-                  </AnimatePresence>
+                    style={{
+                      left: x,
+                      top: y,
+                      transform: `translate(-50%, -50%)`, // Center the button on calculated position
+                    }}
+                    initial={{
+                      opacity: 0,
+                      scale: 0,
+                      rotate: angle * (180 / Math.PI) // Start with rotation matching the angle
+                    }}
+                    animate={{
+                      opacity: 1,
+                      scale: 1,
+                      rotate: 0
+                    }}
+                    exit={{
+                      opacity: 0,
+                      scale: 0,
+                      rotate: angle * (180 / Math.PI)
+                    }}
+                    transition={{
+                      duration: 0.8,
+                      delay: index * 0.1, // Staggered animation
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20
+                    }}
+                    whileHover={{
+                      scale: 1.15,
+                      boxShadow: activeId === item.id
+                        ? "0 0 25px rgba(34,211,238,0.5)"
+                        : "0 0 20px rgba(255,255,255,0.2)"
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                    onMouseEnter={() => setHoveredItem(item.id)}
+                    onMouseLeave={() => setHoveredItem(null)}
+                    onClick={() => {
+                      if (isTouch) setIsMenuOpen(false);
+                      const el = document.getElementById(item.id);
+                      if (el) {
+                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }
+                    }}
+                    title={item.label}
+                    aria-label={`Navigate to ${item.label}`}
+                  >
+                    <span className={cn(
+                      "transition-colors duration-200",
+                      activeId === item.id ? "text-cyan-400" : "text-white/70 group-hover:text-white"
+                    )}>
+                      {getIcon(item.id)}
+                    </span>
 
-                  {active && (
-                    <motion.div
-                      layoutId="sidenav-active"
-                      className="absolute inset-0 rounded-2xl bg-gradient-to-r from-cyan-500/15 to-violet-500/10 border border-cyan-500/25 -z-10"
-                      transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                    />
-                  )}
-                </button>
-              </div>
-            );
-          })}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </motion.div>
+                    {/* Tooltip - shows when hovering over the button */}
+                    <AnimatePresence>
+                      {hoveredItem === item.id && (
+                        <motion.div
+                          className="absolute left-1/2 top-full mt-2 -translate-x-1/2 px-2 py-1 bg-black/80 text-white text-xs rounded-md whitespace-nowrap pointer-events-none z-20"
+                          initial={{ opacity: 0, y: -5, scale: 0.8 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: -5, scale: 0.8 }}
+                          transition={{ duration: 0.3, ease: "easeOut" }}
+                        >
+                          {item.label}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.button>
+                );
+              })}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </aside>
   );
 }

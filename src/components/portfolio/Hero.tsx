@@ -8,36 +8,20 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { ExternalLink, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
+import Image from "next/image";
 
 import { HERO_STRINGS, SOCIAL_LINKS } from "@/data/portfolio";
 import useTypewriter from "@/hooks/useTypewriter";
-import { cn } from "@/lib/cn";
-
-function splitLetters(text: string) {
-  return text.split("").map((ch, idx) => ({ ch, idx }));
-}
 
 export default function Hero() {
   const reducedMotion = useReducedMotion();
   const typed = useTypewriter({ words: [...HERO_STRINGS], typingMs: 28, deletingMs: 16, pauseMs: 820 });
 
-  // Typewriter for name – types once and stops (no deletion)
-  const nameTyped = useTypewriter({
-    words: ["Sundram Kumar"],
-    typingMs: 60,
-    deletingMs: 0,
-    pauseMs: 0,
-  });
-
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const [isTouch] = useState(() => typeof window !== 'undefined' && 'ontouchstart' in window || navigator.maxTouchPoints > 0);
 
   const sMx = useSpring(mx, { stiffness: 160, damping: 18, mass: 0.3 });
   const sMy = useSpring(my, { stiffness: 160, damping: 18, mass: 0.3 });
@@ -95,56 +79,69 @@ export default function Hero() {
                 transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
                 className="mt-0"
               >
-                <div className="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.2] sm:leading-[1.1]">
+                {/* Name rendered in cursive - static */}
+                <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold leading-[1.1] tracking-tight">
                   <span
-                    className="bg-gradient-to-r from-pink-200 via-orange-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]"
-                    style={{ fontFamily: "'Dancing Script', cursive" }}
+                    className="bg-gradient-to-r from-pink-200 via-orange-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+                    style={{ fontFamily: "var(--font-cursive)" }}
                   >
-                    {nameTyped}
+                    Sundram Kumar
                   </span>
-                  <motion.span
-                    className="inline-block h-[0.9em] w-[4px] bg-cyan-400 align-middle ml-1.5 shadow-[0_0_10px_rgba(34,211,238,0.8)]"
-                    animate={{ opacity: [1, 1, 0, 0] }}
-                    transition={{ duration: 0.8, repeat: Infinity, times: [0, 0.5, 0.5, 1] }}
-                  />
-                </div>
+                </h1>
               </motion.div>
 
-              <h1 className="mt-6 text-3xl sm:text-5xl lg:text-6xl font-semibold leading-[1.2] sm:leading-[1.05] tracking-tight">
-                <span className="block bg-gradient-to-r from-pink-200 via-orange-200 to-purple-200 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(255,20,147,0.25)]">
-                  {splitLetters("Sundram Kumar").map(({ ch, idx }) => (
-                    <motion.span
-                      key={`${ch}-${idx}`}
-                      initial={{ opacity: 0, y: 16, filter: "blur(8px)" }}
-                      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                      transition={{ duration: 0.45, delay: idx * 0.01 }}
-                      className={cn(
-                        ch === " " ? "w-4 inline-block" : "inline-block",
-                      )}
-                    >
-                      {ch}
-                    </motion.span>
-                  ))}
-                </span>
-              </h1>
-
-              <div className="mt-4 text-sm sm:text-lg text-white/70">
-                <span className="text-white/80">I craft</span>{" "}
-                <span className="relative inline-block font-semibold text-transparent bg-gradient-to-r from-yellow-200 to-pink-200 bg-clip-text">
+              <div className="mt-4 text-xs sm:text-sm text-white/70">
+                <motion.span
+                  className="text-white/80 inline"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.6,
+                    delay: 0.4,
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 10
+                  }}
+                >
+                  I craft
+                </motion.span>{" "}
+                <span
+                  className="relative inline-flex items-center font-semibold text-transparent bg-gradient-to-r from-yellow-200 to-pink-200 bg-clip-text"
+                  style={{ fontFamily: "var(--font-typewriter)" }}
+                >
                   <motion.span
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: 0.35 }}
+                    initial={{ opacity: 0, y: 30, scale: 0.8 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{
+                      duration: 0.8,
+                      delay: 0.6,
+                      type: "spring",
+                      stiffness: 150,
+                      damping: 12
+                    }}
                   >
                     {typed}
                   </motion.span>
                   <motion.span
-                    className="ml-1 inline-block h-[0.9em] w-[2px] bg-pink-300 align-middle shadow-[0_0_8px_rgba(244,114,182,0.8)]"
+                    className="ml-1 inline-block h-[0.8em] w-[2px] bg-pink-300 align-middle shadow-[0_0_8px_rgba(244,114,182,0.8)]"
                     animate={{ opacity: [1, 0] }}
                     transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
                   />
                 </span>{" "}
-                <span className="text-white/60 block sm:inline">Empowering users and businesses alike.</span>
+                <motion.span
+                  className="text-white/60 inline"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    duration: 0.5,
+                    delay: 0.8,
+                    type: "spring",
+                    stiffness: 180,
+                    damping: 15
+                  }}
+                >
+                  Empowering users and businesses alike.
+                </motion.span>
               </div>
 
               <p className="mt-5 max-w-xl text-sm sm:text-base text-white/60 leading-relaxed">
@@ -186,7 +183,7 @@ export default function Hero() {
                 <motion.a
                   whileHover={{ scale: 1.08, backgroundColor: "rgba(255,255,255,0.15)" }}
                   whileTap={{ scale: 0.98 }}
-                  href="https://www.linkedin.com/in/sundaram-sharma-108a1b297/"
+                  href={SOCIAL_LINKS.linkedin}
                   target="_blank"
                   rel="noreferrer"
                   className="group rounded-2xl border border-white/10 bg-white/5 p-3.5 text-white/90 transition-all flex items-center justify-center"
@@ -237,9 +234,12 @@ export default function Hero() {
               className="glass-strong relative overflow-hidden rounded-[2.3rem] p-0 group ring-1 ring-white/10 shadow-[0_0_30px_rgba(255,20,147,0.1)]"
               whileHover={{ scale: 1.02, boxShadow: "0 0 50px rgba(255,20,147,0.25)", borderColor: "rgba(255,20,147,0.3)" }}
             >
-              <img
+              <Image
                 src="/school-kid.avif"
                 alt="School kid studying"
+                width={400}
+                height={400}
+                loading="eager"
                 className="w-full h-full object-cover rounded-[2.3rem] transition-transform duration-500 group-hover:scale-105"
               />
               <motion.div

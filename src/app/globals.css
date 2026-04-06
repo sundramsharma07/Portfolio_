@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@theme {
+  --font-calisto: "Calisto MT", Georgia, serif;
+  --font-typewriter: var(--font-typewriter);
+  --font-cursive: var(--font-cursive);
+}
+
 @layer base {
   :root {
     color-scheme: dark;
@@ -19,6 +25,7 @@
     min-height: 100%;
     height: 100svh;
     overflow-x: hidden;
+    scroll-behavior: smooth;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Inter', 'Poppins', sans-serif;
     background: var(--bg-deep);
     color: var(--text-primary);
@@ -77,9 +84,9 @@
   }
 
   section {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 1000px;
-}
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1000px;
+  }
 
 .glass {
     background: var(--glass-bg);

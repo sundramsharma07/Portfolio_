@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
 import { ACHIEVEMENTS } from "@/data/portfolio";
@@ -10,11 +9,6 @@ import AnimatedCounter from "@/components/portfolio/AnimatedCounter";
 
 export default function AchievementsSection() {
   const reducedMotion = useReducedMotion();
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
 
   return (
     <section
@@ -33,7 +27,7 @@ export default function AchievementsSection() {
               <Reveal key={a.label} delayMs={idx * 90}>
                 <motion.div
                   className="glass-strong rounded-[2.2rem] p-6 sm:p-7 relative overflow-hidden"
-                  whileHover={isTouch || reducedMotion ? undefined : { scale: 1.02 }}
+                  whileHover={reducedMotion ? undefined : { scale: 1.02 }}
                   transition={{ duration: 0.25 }}
                 >
                   <div className="absolute inset-0 bg-[radial-gradient(900px_circle_at_20%_0%,rgba(34,211,238,0.14),transparent_55%),radial-gradient(650px_circle_at_100%_40%,rgba(99,102,241,0.14),transparent_55%)]" />

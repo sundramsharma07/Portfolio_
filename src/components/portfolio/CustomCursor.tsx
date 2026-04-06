@@ -5,7 +5,7 @@ import { motion, useSpring, useMotionValue, useReducedMotion } from "framer-moti
 
 export default function CustomCursor() {
   const reducedMotion = useReducedMotion();
-  const [mounted, setMounted] = useState(false);
+  const [mounted] = useState(true);
   const [mode, setMode] = useState<"default" | "magnify">("default");
 
   const mouseX = useMotionValue(0);
@@ -16,7 +16,6 @@ export default function CustomCursor() {
   const cursorY = useSpring(mouseY, springConfig);
 
   useEffect(() => {
-    setMounted(true);
 
     const onMouseMove = (e: MouseEvent) => {
       mouseX.set(e.clientX - 10);

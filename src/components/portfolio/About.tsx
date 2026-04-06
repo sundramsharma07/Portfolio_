@@ -100,6 +100,7 @@ export default function About() {
 
                 <motion.p
                   className="text-white/72 leading-relaxed text-sm sm:text-base"
+                  style={{ fontFamily: "var(--font-calisto)" }}
                   animate={
                     reducedMotion
                       ? undefined
@@ -144,16 +145,26 @@ export default function About() {
                     { label: "Strength", value: "Problem Solving" },
                     { label: "Approach", value: "Clean & Secure" },
                     { label: "Style", value: "Premium UX" },
-                  ].map((item) => (
-                    <div
+                  ].map((item, index) => (
+                    <motion.div
                       key={item.label}
+                      initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, amount: 0.3 }}
+                      transition={{
+                        duration: 0.6,
+                        delay: 0.2 + index * 0.1,
+                        type: "spring",
+                        stiffness: 100,
+                        damping: 15
+                      }}
                       className="rounded-2xl border border-white/10 bg-white/5 p-4 hover:bg-white/7 transition-colors"
                     >
                       <div className="text-xs text-white/55">{item.label}</div>
                       <div className="mt-1 text-sm font-semibold text-white/90">
                         {item.value}
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </motion.div>
 

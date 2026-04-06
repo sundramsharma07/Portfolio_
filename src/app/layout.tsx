@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Space_Grotesk } from "next/font/google";
+import { JetBrains_Mono, Space_Grotesk, Great_Vibes, Dancing_Script, Courier_Prime } from "next/font/google";
 import "./globals.css";
 
 const spaceSans = Space_Grotesk({
@@ -10,6 +10,24 @@ const spaceSans = Space_Grotesk({
 const monoSans = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
+});
+
+const cursiveFont = Great_Vibes({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-cursive",
+});
+
+const dancingScript = Dancing_Script({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-dancing",
+});
+
+const courierPrime = Courier_Prime({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-typewriter",
 });
 
 export const metadata: Metadata = {
@@ -26,7 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceSans.variable} ${monoSans.variable} h-full antialiased`}
+      className={`${spaceSans.variable} ${monoSans.variable} ${cursiveFont.variable} ${dancingScript.variable} ${courierPrime.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-black text-white selection:bg-cyan-500/30 selection:text-white">
         {children}

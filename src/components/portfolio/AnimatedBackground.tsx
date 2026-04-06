@@ -22,11 +22,7 @@ export default function AnimatedBackground() {
   const reducedMotion = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const [isTouch, setIsTouch] = useState(false);
-
-  useEffect(() => {
-    setIsTouch('ontouchstart' in window || navigator.maxTouchPoints > 0);
-  }, []);
+  const [isTouch] = useState(() => typeof window !== 'undefined' && 'ontouchstart' in window || navigator.maxTouchPoints > 0);
 
   const sMx = useSpring(mx, { stiffness: 150, damping: 20, mass: 0.35 });
   const sMy = useSpring(my, { stiffness: 150, damping: 20, mass: 0.35 });
@@ -58,6 +54,7 @@ export default function AnimatedBackground() {
       left: 10 + rnd() * 80,
       delay: rnd() * 10,
       dur: 2 + rnd() * 4,
+      repeatDelay: 12 + rnd() * 15,
     }));
   }, [reducedMotion, isTouch]);
 
@@ -160,7 +157,7 @@ export default function AnimatedBackground() {
             duration: m.dur,
             repeat: Infinity,
             delay: m.delay,
-            repeatDelay: 12 + Math.random() * 15,
+            repeatDelay: m.repeatDelay,
             ease: "linear",
           }}
         />

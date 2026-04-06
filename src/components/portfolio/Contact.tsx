@@ -2,7 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Mail, Phone, Send } from "lucide-react";
+import { Mail, Phone, Send } from "lucide-react";
+import { FaGithub, FaLinkedinIn } from "react-icons/fa6";
 
 import { SOCIAL_LINKS } from "@/data/portfolio";
 import Reveal from "@/components/portfolio/Reveal";
@@ -105,7 +106,7 @@ export default function ContactSection() {
                         className="rounded-2xl border border-white/10 bg-white/5 p-3 hover:bg-white/10 transition-colors"
                         aria-label="GitHub"
                       >
-                        <ExternalLink size={18} className="text-white/85" />
+                        <FaGithub size={18} className="text-white/85" />
                       </motion.a>
                       <motion.a
                       whileHover={{ scale: 1.08 }}
@@ -115,7 +116,7 @@ export default function ContactSection() {
                         className="rounded-2xl border border-white/10 bg-white/5 p-3 hover:bg-white/10 transition-colors"
                         aria-label="LinkedIn"
                       >
-                        <ExternalLink size={18} className="text-white/85" />
+                        <FaLinkedinIn size={18} className="text-white/85" />
                       </motion.a>
                     </div>
                   </div>

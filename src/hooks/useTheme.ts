@@ -5,24 +5,19 @@ import { useEffect, useState } from "react";
 export type ThemeMode = "dark" | "light";
 
 export default function useTheme() {
-  const [mode, setMode] = useState<ThemeMode>("dark");
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
+  const [mode, setMode] = useState<ThemeMode>(() => {
     // Initialize theme from localStorage or system preference
+    if (typeof window === 'undefined') return "dark";
     const stored = window.localStorage.getItem("theme");
-    const initialMode: ThemeMode = (stored === "light" || stored === "dark") 
+    return (stored === "light" || stored === "dark") 
       ? stored 
       : window.matchMedia?.("(prefers-color-scheme: light)")?.matches ? "light" : "dark";
-    
-    setMode(initialMode);
-    document.documentElement.dataset.theme = initialMode;
-    window.localStorage.setItem("theme", initialMode);
-    setMounted(true);
-  }, []);
+  });
+  const [mounted] = useState(true);
 
   useEffect(() => {
     if (!mounted) return;
+    // Apply the theme to the document
     document.documentElement.dataset.theme = mode;
     window.localStorage.setItem("theme", mode);
   }, [mode, mounted]);

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Home, User, Code2, Briefcase, GraduationCap, Award, FileCheck, ShieldCheck, Mail, FileText } from "lucide-react";
 
 import { NAV_ITEMS } from "@/data/portfolio";
 import { cn } from "@/lib/cn";
@@ -58,6 +58,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [sectionsOpen, setSectionsOpen] = useState(false);
+  const [circularMenuOpen, setCircularMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 18);
@@ -85,27 +86,95 @@ export default function Navbar() {
           scrolled ? "glass-strong py-2" : "glass py-3",
         )}
       >
-        <button
-          type="button"
-          onClick={() => scrollToId("home")}
-          className="group flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-white/10 transition-colors"
-          aria-label="Go to top"
-        >
-          <span className="relative grid h-9 w-9 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10">
-            <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-400/30 via-violet-400/20 to-blue-400/10 blur-[1px]" />
-            <span className="relative text-sm font-semibold tracking-wide text-cyan-200">
-              SK
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => scrollToId("home")}
+            onMouseEnter={() => setCircularMenuOpen(true)}
+            onMouseLeave={() => setCircularMenuOpen(false)}
+            className="group flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-white/10 transition-colors"
+            aria-label="Go to top"
+          >
+            <span className="relative grid h-9 w-9 place-items-center rounded-2xl bg-white/5 ring-1 ring-white/10">
+              <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-cyan-400/30 via-violet-400/20 to-blue-400/10 blur-[1px]" />
+              <span className="relative text-sm font-semibold tracking-wide text-cyan-200">
+                SK
+              </span>
             </span>
-          </span>
-          {!scrolled ? (
-            <div className="hidden sm:block text-left">
-              <div className="text-sm font-semibold leading-4 text-white/90">
-                Sundram Kumar
+            {!scrolled ? (
+              <div className="hidden sm:block text-left">
+                <div className="text-sm font-semibold leading-4 text-white/90">
+                  Sundram Kumar
+                </div>
+                <div className="text-xs text-white/60">CSE Student</div>
               </div>
-              <div className="text-xs text-white/60">CSE Student</div>
-            </div>
-          ) : null}
-        </button>
+            ) : null}
+          </button>
+
+          {/* Circular Menu */}
+          <AnimatePresence>
+            {circularMenuOpen && (
+              <motion.div
+                className="absolute left-0 top-full mt-2"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.2 }}
+              >
+                <div className="relative">
+                  {NAV_ITEMS.map((item, index) => {
+                    const angle = (index / (NAV_ITEMS.length - 1)) * 180 - 90; // Semi-circle from -90 to 90 degrees
+                    const radius = 120;
+                    const x = Math.cos((angle * Math.PI) / 180) * radius;
+                    const y = Math.sin((angle * Math.PI) / 180) * radius;
+
+                    return (
+                      <motion.button
+                        key={item.id}
+                        type="button"
+                        onClick={() => {
+                          setCircularMenuOpen(false);
+                          scrollToId(item.id);
+                        }}
+                        className={cn(
+                          "absolute flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/90 transition-all hover:bg-white/10 hover:scale-110",
+                          active === item.id && "ring-2 ring-cyan-400/50 bg-cyan-500/10"
+                        )}
+                        style={{
+                          left: x + 24, // Center horizontally
+                          top: y + 24,  // Center vertically
+                        }}
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{
+                          duration: 0.3,
+                          delay: index * 0.05,
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 15
+                        }}
+                        whileHover={{ scale: 1.2 }}
+                        whileTap={{ scale: 0.9 }}
+                        title={item.label}
+                      >
+                        {item.id === "home" && <Home size={16} />}
+                        {item.id === "about" && <User size={16} />}
+                        {item.id === "techstack" && <Code2 size={16} />}
+                        {item.id === "projects" && <Briefcase size={16} />}
+                        {item.id === "training" && <GraduationCap size={16} />}
+                        {item.id === "certificates" && <FileCheck size={16} />}
+                        {item.id === "achievements" && <Award size={16} />}
+                        {item.id === "education" && <ShieldCheck size={16} />}
+                        {item.id === "resume" && <FileText size={16} />}
+                        {item.id === "contact" && <Mail size={16} />}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
 
         <nav className="hidden lg:flex items-center gap-2">
           <motion.button

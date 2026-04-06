@@ -79,11 +79,9 @@ export default function EducationSection() {
                               </div>
                               <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-white/45">
                                 <span className="flex items-center gap-1">
-                                  {/* @ts-ignore - added in data */}
                                   {x.date}
                                 </span>
                                 <span className="flex items-center gap-1">
-                                  {/* @ts-ignore */}
                                   {x.location}
                                 </span>
                               </div>
