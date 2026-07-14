@@ -1,106 +1,150 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Code2, ExternalLink } from "lucide-react";
-
+import { ExternalLink, FolderGit2, Sparkles, ChevronRight } from "lucide-react";
+import BrowserFrame from "@/components/portfolio/BrowserFrame";
 import { cn } from "@/lib/cn";
 
 export default function ProjectCard({
   title,
   description,
   stack,
+  liveUrl,
+  repoUrl,
+  isStarProject,
   onOpen,
   index,
 }: {
   title: string;
   description: string;
   stack: string[];
+  liveUrl?: string;
+  repoUrl?: string;
+  isStarProject?: boolean;
   index: number;
   onOpen: () => void;
 }) {
   return (
-    <motion.button
-      type="button"
-      onClick={onOpen}
+    <motion.div
       className={cn(
-        "group relative text-left rounded-[2.4rem] overflow-hidden border border-white/10 glass",
-        "shadow-sm hover:shadow-2xl transition-all duration-500",
+        "group relative flex flex-col w-full rounded-[2rem] overflow-hidden border transition-all duration-500 ease-out",
+        isStarProject
+          ? "border-cyan-500/30 bg-slate-900/60 shadow-[0_0_40px_rgba(34,211,238,0.12)] ring-1 ring-cyan-500/20 hover:shadow-[0_0_55px_rgba(34,211,238,0.25)] hover:border-cyan-400/50"
+          : "border-white/10 bg-slate-950/60 hover:border-cyan-500/25 hover:shadow-[0_0_35px_rgba(34,211,238,0.12)]"
       )}
-      initial={{ opacity: 0, scale: 0.98, y: 10 }}
-      whileInView={{ opacity: 1, scale: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.15 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.05 }}
-      whileHover={{ scale: 1.015, boxShadow: "0 0 50px rgba(34,211,238,0.14)" }}
-      whileTap={{ scale: 0.995 }}
-      style={{ transformStyle: "preserve-3d" }}
+      initial={{ opacity: 0, y: 20, scale: 0.98 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.12 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: index * 0.04 }}
     >
+      {/* Decorative glow layer */}
       <span
-        className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(34,211,238,0.14),transparent_60%),radial-gradient(circle_at_bottom,rgba(168,85,247,0.12),transparent_55%)]"
+        className={cn(
+          "absolute inset-0 pointer-events-none transition-opacity duration-700 opacity-50 group-hover:opacity-100 z-0",
+          isStarProject
+            ? "bg-[radial-gradient(ellipse_at_top,rgba(34,211,238,0.18),transparent_55%),radial-gradient(ellipse_at_bottom,rgba(168,85,247,0.12),transparent_55%)]"
+            : "bg-[radial-gradient(ellipse_at_top_left,rgba(34,211,238,0.08),transparent_50%)]"
+        )}
         aria-hidden
       />
 
-      <span
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity"
-        aria-hidden
-      >
-        <span className="absolute -left-20 top-0 h-28 w-28 rounded-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.35),transparent_60%)] blur-xl" />
-        <span className="absolute -bottom-20 right-0 h-28 w-28 rounded-full bg-[radial-gradient(circle_at_center,rgba(99,102,241,0.25),transparent_60%)] blur-xl" />
-      </span>
+      {/* ── TOP: Full-width scaled live preview ── */}
+      {liveUrl ? (
+        <div className="relative w-full z-10 overflow-hidden rounded-[2rem] border-b border-white/[0.07]">
+          <BrowserFrame
+            url={liveUrl}
+            title={title}
+            previewHeight={isStarProject ? 300 : 240}
+            className="rounded-none border-0"
+          />
+        </div>
+      ) : (
+        /* No-preview placeholder for repo-only projects */
+        <div className="relative w-full h-36 flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-950 border-b border-white/5 z-10">
+          <FolderGit2 size={40} className="text-white/10" />
+        </div>
+      )}
 
-      <span
-        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
-        aria-hidden
-      >
-        <span className="absolute inset-0 bg-[linear-gradient(120deg,transparent_0%,rgba(255,255,255,0.18)_35%,transparent_70%)] translate-x-[-130%] group-hover:translate-x-[130%] transition-transform duration-700 rotate-6" />
-      </span>
+      {/* ── BOTTOM: Info section ── */}
+      <div className="relative z-10 flex flex-col gap-4 p-6 sm:p-8">
 
-      <span className="relative block p-5 sm:p-6">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <div className="text-xs font-semibold tracking-wide text-white/60">
-              0{index + 1}
-            </div>
-            <div className="mt-2 text-lg sm:text-xl font-semibold text-white/95">
-              {title}
-            </div>
-          </div>
-          <div className="mt-1 h-10 w-10 rounded-2xl border border-white/10 bg-white/5 grid place-items-center ring-glow group-hover:bg-cyan-500/15 transition-all duration-300">
-            <Code2 size={18} className="text-cyan-200 group-hover:scale-110 transition-transform" />
-          </div>
+        {/* Row 1: index + star badge */}
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] font-mono font-bold tracking-widest text-cyan-400 opacity-70">
+            0{index + 1}
+          </span>
+          {isStarProject && (
+            <span className="flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[9px] font-extrabold tracking-wider uppercase bg-gradient-to-r from-cyan-400 to-violet-400 text-black shadow-[0_0_12px_rgba(34,211,238,0.5)]">
+              <Sparkles size={8} />
+              Star Project
+            </span>
+          )}
         </div>
 
-        <div className="mt-3 text-sm leading-relaxed text-white/65">
-          {description}
-        </div>
+        {/* Row 2: Title */}
+        <h3
+          className="text-xl sm:text-2xl font-bold text-white/95 group-hover:text-cyan-300 transition-colors cursor-pointer leading-snug"
+          onClick={onOpen}
+        >
+          {title}
+        </h3>
 
-        <div className="mt-5 flex flex-wrap gap-2">
+        {/* Row 3: Tech stack (always visible beneath preview) */}
+        <div className="flex flex-wrap gap-1.5">
           {stack.map((t) => (
-            <motion.span
+            <span
               key={t}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2 + 0.04 * stack.indexOf(t) }}
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(34,211,238,0.1)" }}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold text-white/70 tracking-wider uppercase"
+              className="rounded-lg border border-white/[0.07] bg-white/[0.05] px-2.5 py-1 text-[10px] font-bold text-white/55 tracking-wider uppercase hover:bg-white/10 hover:text-white transition-colors"
             >
               {t}
-            </motion.span>
+            </span>
           ))}
         </div>
 
-        <div className="mt-6 flex items-center justify-between">
-          <span className="text-xs font-semibold text-cyan-200/80">
-            Click to expand
-          </span>
-          <motion.span
-            className="text-xs font-bold text-cyan-200 inline-flex items-center gap-1.5"
-            whileHover={{ x: 5 }}
+        {/* Row 4: Actions */}
+        <div className="flex items-center justify-between pt-3 border-t border-white/[0.06] gap-3">
+          {/* Details & Highlights button */}
+          <button
+            type="button"
+            onClick={onOpen}
+            className="flex items-center gap-1 text-xs font-semibold text-white/50 hover:text-cyan-300 transition-colors"
           >
-            Details <ExternalLink size={12} />
-          </motion.span>
+            <ChevronRight size={13} className="text-cyan-500" />
+            Details &amp; Highlights
+          </button>
+
+          {/* Live + Repo buttons */}
+          <div className="flex items-center gap-2">
+            {repoUrl && (
+              <a
+                href={repoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-white/10 bg-white/5 text-[10px] font-bold text-white/60 uppercase tracking-wider hover:bg-white/10 hover:text-white transition-all"
+              >
+                <FolderGit2 size={11} />
+                Repo
+              </a>
+            )}
+            {liveUrl && (
+              <a
+                href={liveUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-wider transition-all",
+                  isStarProject
+                    ? "bg-gradient-to-r from-cyan-400 to-violet-400 text-black hover:from-cyan-300 hover:to-violet-300 shadow-[0_0_12px_rgba(34,211,238,0.35)] hover:shadow-[0_0_18px_rgba(34,211,238,0.5)]"
+                    : "bg-cyan-400 text-black hover:bg-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.2)] hover:shadow-[0_0_15px_rgba(34,211,238,0.4)]"
+                )}
+              >
+                <ExternalLink size={11} />
+                Live
+              </a>
+            )}
+          </div>
         </div>
-      </span>
-    </motion.button>
+      </div>
+    </motion.div>
   );
 }
-

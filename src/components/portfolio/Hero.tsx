@@ -21,7 +21,7 @@ export default function Hero() {
 
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const [isTouch] = useState(() => typeof window !== 'undefined' && 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+  const [isTouch, setIsTouch] = useState(false);
 
   const sMx = useSpring(mx, { stiffness: 160, damping: 18, mass: 0.3 });
   const sMy = useSpring(my, { stiffness: 160, damping: 18, mass: 0.3 });
@@ -40,6 +40,15 @@ export default function Hero() {
     window.addEventListener("mousemove", onMove, { passive: true });
     return () => window.removeEventListener("mousemove", onMove);
   }, [mx, my, reducedMotion, isTouch]);
+
+  useEffect(() => {
+    setIsTouch(
+      typeof window !== 'undefined' && (
+        'ontouchstart' in window ||
+        (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0)
+      )
+    );
+  }, []);
 
   const scrollToId = (id: string) => {
     const el = document.getElementById(id);

@@ -29,6 +29,7 @@ export type Project = {
   highlights: string[];
   liveUrl?: string;
   repoUrl?: string;
+  isStarProject?: boolean;
   /**
    * When false, the modal will not embed the live preview (still shows links).
    * Useful when a project should not be showcased visually.
@@ -75,6 +76,33 @@ export const SKILLS = {
 
 export const PROJECTS = [
   {
+    title: "parikshamitraa - government exam platform",
+    description:
+      "A free mock platform for multiple government exams with a clean TypeScript-first UI and fast practice flow.",
+    stack: ["TypeScript", "CSS", "APIs", "Web UI", "React", "Tailwind CSS"],
+    highlights: [
+      "Provides free exam mocks for multiple competitive exams (CGL, CHSL, Railways, SSC).",
+      "Built with TypeScript for reliable UI logic and smoother state handling.",
+      "Optimized practice experience for quick attempts and review.",
+    ],
+    liveUrl: "https://parikshamitraa.lovable.app/",
+    isStarProject: true,
+  },
+  {
+    title: "Naman Enterprises – Customer Portal",
+    description:
+      "A premium full-stack e-commerce customer portal for Bihar's leading industrial materials supplier — featuring product catalog, smart inquiry system, materials calculator, and real-time order management.",
+    stack: ["Next.js", "React", "Tailwind CSS", "Vercel", "TypeScript", "Framer Motion"],
+    highlights: [
+      "Built a full-stack customer-facing portal for Naman Enterprises, a leading supplier of Cement, TMT Rods, and Hardware.",
+      "Implemented a smart product catalog with category filtering, pricing, and inquiry-based cart system.",
+      "Added a custom construction materials calculator to help customers estimate material quantities.",
+      "Deployed on Vercel with optimized performance, multi-font system, and responsive design for Bihar's trade market.",
+    ],
+    liveUrl: "https://naman-customer-portal.vercel.app/",
+    isStarProject: true,
+  },
+  {
     title: "AI Handwritten Text Enhancer",
     description:
       "An OCR + AI workflow that enhances handwritten text using REST APIs and modern AI models.",
@@ -91,19 +119,7 @@ export const PROJECTS = [
       "AI-driven text enhancement via REST endpoints",
       "User-friendly UI for uploads and real-time processing",
     ],
-    liveUrl: "https://sundramsharma07.github.io/AI-TEXT-ENHANCER/",
-  },
-  {
-    title: "Educational Web Platform",
-    description:
-      "A dynamic learning platform with backend modules and database integration to deliver structured content and smoother study flows.",
-    stack: ["HTML", "Tailwind CSS", "PHP", "MySQL"],
-    highlights: [
-      "Backend modules to support dynamic learning flows",
-      "Database-driven content management",
-      "Responsive UI built for a smooth study experience",
-    ],
-    repoUrl: "https://github.com/Ashutosh2705Yadav/ChaloSeekhein",
+    liveUrl: "https://play-with-ai-enhance-your-text.onrender.com/",
   },
   {
     title: "System Call Interface for Security",
@@ -118,52 +134,37 @@ export const PROJECTS = [
     liveUrl: "https://sundramsharma07.github.io/SystemCall/",
   },
   {
-    title: "Voice Bloom – Sentiment Analyzer",
+    title: "Echo Gold",
     description:
-      "Real-time call sentiment analysis using speech-to-text and AI-driven insights, designed for live monitoring and decision-making.",
+      "Real-time voice communication room and analysis with a clean, modern experience and speech-to-text live data streaming.",
     stack: [
       "Node.js",
       "Express.js",
       "MongoDB",
-      "HTML",
-      "CSS",
-      "APIs",
+      "React",
+      "WebSockets",
+      "Speech APIs",
     ],
     highlights: [
       "Built a real-time call sentiment analysis web app using Node.js, Express.js, and REST APIs.",
       "Integrated speech-to-text and sentiment analysis APIs to process recorded and live call audio.",
-      "Used WebSocket’s and MongoDB to store transcripts and stream sentiment insights in real time.",
+      "Used WebSockets and MongoDB to store transcripts and stream sentiment insights in real time.",
       "Improved call monitoring and decision-making through a live analytics dashboard.",
     ],
-    liveUrl:
-      "https://sentiment-analysis-4p3r04h6g-sundram-kumars-projects-5104b986.vercel.app",
+    liveUrl: "https://echo-gold.vercel.app/",
     repoUrl: "https://github.com/sundaramsharma07/VoiceBloom",
-    showLivePreview: false,
   },
   {
-    title: "Get Set Go – Government Exam Mock",
+    title: "Leather Web Store",
     description:
-      "A free mock platform for multiple government exams with a clean TypeScript-first UI and fast practice flow.",
-    stack: ["TypeScript", "CSS", "APIs", "Web UI"],
+      "A premium, responsive e-commerce web platform for high-end leather retail, featuring a modern shopping dashboard, catalog filtering, and dynamic cart operations.",
+    stack: ["Next.js", "React", "Tailwind CSS", "Vercel", "Framer Motion"],
     highlights: [
-      "Provides free exam mocks for multiple competitive exams (CGL, CHSL, Railways, SSC).",
-      "Built with TypeScript for reliable UI logic and smoother state handling.",
-      "Optimized practice experience for quick attempts and review.",
+      "Fully responsive product grid with smooth filter animations",
+      "Interactive cart sidebar with persistent local state",
+      "Premium dark/gold aesthetic tailored for luxury retail branding",
     ],
-    liveUrl: "https://get-set-go-mock.lovable.app",
-  },
-  {
-    title: "WhisperGlow Room – Private Voice Chat",
-    description:
-      "Create a private room for real-time voice conversation with a clean, modern TypeScript + CSS experience.",
-    stack: ["TypeScript", "CSS", "APIs", "Web UI"],
-    highlights: [
-      "Generate a new private voice room in seconds",
-      "Real-time communication UX with smooth interactions",
-      "Built with TypeScript-first UI logic for reliability",
-      "Minimal, premium dark UI for recruiter-grade product feel",
-    ],
-    liveUrl: "https://whisper-glow-room.lovable.app/",
+    liveUrl: "https://leather-store-web.vercel.app/",
   },
 ] satisfies Project[];
 
@@ -214,12 +215,12 @@ export const CERTIFICATES = [
   {
     title: "Coursera Certificate",
     subtitle: "Software Development Methodologies",
-    url: "https://www.coursera.org/account/accomplishments/certificate/4NYUDFK8TWFB",
+    url: "https://drive.google.com/file/d/1EgVM8vC5tnaZKiSnobWr2iZuMhpYSsy1/view?usp=drive_link",
   },
   {
     title: "NPTEL Certificate (PDF)",
     subtitle: "Privacy and Security in Online Social Media",
-    url: "https://archive.nptel.ac.in/content/noc/NOC25/SEM2/Ecertificates/106/noc25-cs117/Course/NPTEL25CS117S66610106310911791.pdf",
+    url: "https://drive.google.com/file/d/1DuMwzu1AlpovZY0oqHIu_uQwhQxzi3pO/view?usp=sharing",
   },
   {
     title: "Relational and Document Model Certificate",

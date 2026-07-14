@@ -23,7 +23,7 @@
 
   html {
     min-height: 100%;
-    height: 100svh;
+    height: 100%;
     overflow-x: hidden;
     scroll-behavior: smooth;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Inter', 'Poppins', sans-serif;
@@ -31,10 +31,12 @@
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
-    min-height: 100svh;
+    min-height: 100%;
     background: transparent;
     color: var(--text-primary);
     overflow-x: hidden;

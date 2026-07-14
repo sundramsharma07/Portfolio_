@@ -42,8 +42,17 @@ export default function SideNav() {
   );
   const activeId = useActiveSection(ids);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isTouch] = useState(() => typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
+  const [isTouch, setIsTouch] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  useEffect(() => {
+    setIsTouch(
+      typeof window !== 'undefined' && (
+        'ontouchstart' in window ||
+        (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0)
+      )
+    );
+  }, []);
 
   const getIcon = (id: string) => {
     switch (id) {

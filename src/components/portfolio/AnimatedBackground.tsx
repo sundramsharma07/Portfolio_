@@ -22,7 +22,7 @@ export default function AnimatedBackground() {
   const reducedMotion = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const [isTouch] = useState(() => typeof window !== 'undefined' && 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+  const [isTouch, setIsTouch] = useState(false);
 
   const sMx = useSpring(mx, { stiffness: 150, damping: 20, mass: 0.35 });
   const sMy = useSpring(my, { stiffness: 150, damping: 20, mass: 0.35 });
@@ -82,6 +82,15 @@ export default function AnimatedBackground() {
       if (raf) window.cancelAnimationFrame(raf);
     };
   }, [mx, my, reducedMotion, isTouch]);
+
+  useEffect(() => {
+    setIsTouch(
+      typeof window !== 'undefined' && (
+        'ontouchstart' in window ||
+        (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0)
+      )
+    );
+  }, []);
 
   return (
     <div className="pointer-events-none absolute inset-0 -z-[1] overflow-hidden" style={{ contain: "paint" }}>
